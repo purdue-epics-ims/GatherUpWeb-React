@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Link from 'react-router';
 
 class LoginScreen extends Component {
 	goToLogin() {
@@ -8,14 +9,14 @@ class LoginScreen extends Component {
 
 	}
 	goToEvents() {
-		
+
 	}
   render() {
     return (
       <div className="App">
-				<a onClick={this.goToLogin.bind(this)}></a>
-				<a onClick={this.goHome.bind(this)}></a>
-				<a onClick={this.goToEvents.bind(this)}></a>
+				<Link to='/'>Home</Link>
+				<Link to=''></Link>
+				<Link to=''>Logout</Link>
       </div>
     );
   }

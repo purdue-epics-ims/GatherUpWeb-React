@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../../img/logo.png';
-import '~/css/App.css';
+import '../../css/App.css';
 
 class EventScreen extends Component {
   render() {
