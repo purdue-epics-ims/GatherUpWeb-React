@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
-import Link from 'react-router';
+import { Link } from 'react-router';
+import '../../css/NavBar.css';
 
-class LoginScreen extends Component {
-	goToLogin() {
-
-	}
-	goHome() {
-
-	}
-	goToEvents() {
-
-	}
+export default class NavBar extends Component {
   render() {
     return (
-      <div className="App">
-				<Link to='/'>Home</Link>
-				<Link to=''></Link>
-				<Link to=''>Logout</Link>
+      <div className="navbar-fixed-top">
+				<Link to='/login'>Login</Link>
+				<Link to="/">Home</Link>
+				<Link to="/events">Events</Link>
       </div>
     );
   }
 }
-
-export default LoginScreen;

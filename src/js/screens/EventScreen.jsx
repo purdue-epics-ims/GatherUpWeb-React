@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import logo from '../../img/logo.png';
+import { Jumbotron, Grid, Col } from 'react-bootstrap';
 import '../../css/App.css';
 
-class EventScreen extends Component {
+export default class EventScreen extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>GatherUp Event Screen</h2>
-					<img src={logo} className="App-logo" alt="logo" />
-        </div>
-        <p className="App-intro">
-          To modify this screen, edit <code>js/screens/EventScreen.jsx</code> and save to reload.
-        </p>
-      </div>
+				<Grid>
+        <Col md={12} className="main-box">
+					<h1>Add an Event</h1>
+					<Col xs={12} md={6}>
+						<form>
+							<input type="text" placeholder="Name of the Event" />
+							<input type="text" placeholder="mm/dd/yyyy" />
+							<input type="text" placeholder="hh:mm" />
+						</form>
+					</Col>
+					<Col xs={12} md={6}>
+						<textarea type="text" placeholder="Description" />
+					</Col>
+				</Col>
+				<Col md={12} className="main-box">
+					<h1>Current List of Events</h1>
+				</Col>
+      </Grid>
+		</div>
     );
   }
 }
-
-export default EventScreen;

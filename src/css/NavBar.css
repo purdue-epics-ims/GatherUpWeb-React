@@ -1,0 +1,11 @@
+.navbar-fixed-top {
+	height: 50px;
+	background: linear-gradient(#FFD22A, #FFB216);
+	box-shadow: 0px 0px 2px #000000;
+	margin-bottom: 0;
+	border-radius: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}

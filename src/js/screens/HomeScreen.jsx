@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from '../../img/logo.png';
 import '../../css/App.css';
 
-class HomeScreen extends Component {
+export default class HomeScreen extends Component {
   render() {
     return (
       <div className="App">
@@ -17,5 +17,3 @@ class HomeScreen extends Component {
     );
   }
 }
-
-export default HomeScreen;

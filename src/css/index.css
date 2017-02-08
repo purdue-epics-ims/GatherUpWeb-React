@@ -2,4 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+	background: linear-gradient(#A3DAFF, #3498DB);
+	background-size: cover;
+	background-color: #3498DB;
+	min-height: 100vh;
 }
