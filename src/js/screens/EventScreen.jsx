@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Grid, Col, Table, Panel } from 'react-bootstrap';
-import ReactModal from 'react-modal';
+import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import '../../css/App.css';
 
 const props = {};
@@ -10,61 +9,32 @@ export default class EventScreen extends Component {
     return (
       <div className="App">
         <Grid>
-          <Panel header="Current List of Events" bsStyle="primary">
-            <Table bordered condensed hover>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Wed Apr 27 2016 15:00:00 GMT-0400 (Eastern Daylight Time)</td>
-                  <td>De-stress Fest</td>
-                  <td>Take a break from studying and join us at Destress Fest! Destress Fest will take place on Wednesday April 27 from 3:00-6:00 p.m. in the Union North Ballroom. We will have free food, crafts, massages, and an oxygen bar. Free with PUID.</td>
-                  <td>CSV Delete Update</td>
-                </tr>
-              </tbody>
-            </Table>
-            <AddEventModal></AddEventModal>
-          </Panel>
+          <AddEventPanel></AddEventPanel>
+          <CurrentEventPanel></CurrentEventPanel>
         </Grid>
       </div>
     );
   }
 }
 
-export class AddEventModal extends Component {
+export class AddEventPanel extends Component {
 
-  constructor () {
-    super();
+  constructor(...args) {
+    super(...args);
     this.state = {
-      showModal: false
+      open: false
     };
-
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-  }
-
-  handleOpenModal () {
-    this.setState({ showModal: true });
-  }
-
-  handleCloseModal () {
-    this.setState({ showModal: false });
   }
 
   render() {
+    var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Add Event</h4></div>;
+    var foot = null;
+    var style = "primary";
     return (
       <div>
-        <button onClick={this.handleOpenModal}>Add Event</button>
-        <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example">
+        <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
           <AddEventForm></AddEventForm>
-          <button onClick={this.handleCloseModal}>Cancel</button>
-        </ReactModal>
+        </Panel>
       </div>
     );
   }
@@ -94,40 +64,100 @@ export class AddEventForm extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Date:
-            <input
-              name="date"
-              type="text"
-              onChange={this.handleInputChange} />
-            </label>
-            <br />
-            <label>
-              Name:
-              <input
-                name="name"
-                type="text"
-                onChange={this.handleInputChange} />
-              </label>
-              <label>
-                Time:
-                <input
-                  name="time"
-                  type="text"
-                  onChange={this.handleInputChange} />
-                </label>
-                <label>
-                  Description:
-                  <input
-                    name="description"
-                    type="text"
-                    onChange={this.handleInputChange} />
-                  </label>
-                  <br />
-                  <input type="submit" value="Submit" />
-                </form>
-              </div>
-            );
-          }
-        }
+        <Form horizontal>
+          <FormGroup controlId="formHorizontalName">
+            <Col componentClass={ControlLabel} sm={2}>
+              Name
+            </Col>
+            <Col sm={10}>
+              <FormControl type="text" placeholder="Name of Event" />
+            </Col>
+          </FormGroup>
+
+          <FormGroup controlId="formHorizontalDate">
+            <Col componentClass={ControlLabel} sm={2}>
+              Date
+            </Col>
+            <Col sm={10}>
+              <FormControl type="date" placeholder="mm/dd/yy" />
+            </Col>
+          </FormGroup>
+
+          <FormGroup controlId="formHorizontalTime">
+            <Col componentClass={ControlLabel} sm={2}>
+              Time
+            </Col>
+            <Col sm={10}>
+              <FormControl type="time" placeholder="--:-- --" />
+            </Col>
+          </FormGroup>
+
+          <FormGroup controlId="formHorizontalTextarea">
+            <Col componentClass={ControlLabel} sm={2}>
+              Description
+            </Col>
+            <Col sm={10}>
+              <FormControl componentClass="textarea" placeholder="Description" />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={2} sm={10}>
+              <Button type="submit">
+                Submit
+              </Button>
+            </Col>
+          </FormGroup>
+        </Form>
+      </div>
+    );
+  }
+}
+
+export class CurrentEventPanel extends Component {
+
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      open: true
+    };
+  }
+
+  render() {
+    var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
+    var foot = null;
+    var style = "primary";
+    return (
+      <div>
+        <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
+          <Table fill bordered condensed hover>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Wed Apr 27 2016 15:00:00 GMT-0400 (Eastern Daylight Time)</td>
+                <td>De-stress Fest</td>
+                <td>Take a break from studying and join us at Destress Fest! Destress Fest will take place on Wednesday April 27 from 3:00-6:00 p.m. in the Union North Ballroom. We will have free food, crafts, massages, and an oxygen bar. Free with PUID.</td>
+                <td>
+                  <ButtonToolbar>
+                    <ButtonGroup bsSize="small">
+                      <Button bsStyle="info">CSV</Button>
+                      <Button bsStyle="danger">Delete</Button>
+                      <Button bsStyle="success">Update</Button>
+                    </ButtonGroup>
+                  </ButtonToolbar>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </Panel>
+      </div>
+    );
+  }
+}
