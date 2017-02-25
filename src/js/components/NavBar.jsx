@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form, ButtonGroup, ButtonToolbar, Checkbox, Navbar, NavItem, Nav } from 'react-bootstrap';
 import '../../css/NavBar.css';
 
-export default class NavBar extends Component {
+export default class DefaultNavBar extends Component {
   render() {
     return (
       <div className="navbar-fixed-top">
-				<Link to='/login'>Login</Link>
-				<Link to="/">Home</Link>
-				<Link to="/events">Events</Link>
+        <Navbar inverse collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">GatherUp</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav>
+              <NavItem eventKey={1} href="/">Home</NavItem>
+              <NavItem eventKey={2} href="./event">Event</NavItem>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       </div>
     );
   }
