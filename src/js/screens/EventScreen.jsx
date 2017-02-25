@@ -1,13 +1,21 @@
-import React, { Component } from 'react';
-import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+import React, { Component, PropTypes as PT } from 'react';
+import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
+import DefaultNavBar from '../../js/components/NavBar.jsx';
 import '../../css/App.css';
 
 const props = {};
+const propTypes = {
+    firebaseApp: PT.object.isRequired,
+    title: PT.string.isRequired,
+    onForward: PT.func,
+    onBack: PT.func
+  }
 
 export default class EventScreen extends Component {
   render() {
     return (
       <div className="App">
+        <DefaultNavBar></DefaultNavBar>
         <Grid>
           <AddEventPanel></AddEventPanel>
           <CurrentEventPanel></CurrentEventPanel>
@@ -147,9 +155,9 @@ export class CurrentEventPanel extends Component {
                 <td>
                   <ButtonToolbar>
                     <ButtonGroup bsSize="small">
-                      <Button bsStyle="info">CSV</Button>
-                      <Button bsStyle="danger">Delete</Button>
-                      <Button bsStyle="success">Update</Button>
+                      <Button bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
+                      <Button bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
+                      <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
                     </ButtonGroup>
                   </ButtonToolbar>
                 </td>
