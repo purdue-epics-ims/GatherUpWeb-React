@@ -17,12 +17,15 @@ export default class LoginScreen extends Component {
 	  super(props);
 	  this.state = {
 		  email: '',
-		  pass: '',	  
+		  pass: '',	
+		  chckpass: '',
 	  };
 	  
 	  this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
 	  this.handleEmail = this.handleEmail.bind(this);
 	  this.handlePass = this.handlePass.bind(this);
+	  this.handleSubmitSignup = this.handleSubmitSignup.bind(this);
+	  this.handleCheckPass = this.handleCheckPass.bind(this);
   }
 	  
   handleEmail(event) {
@@ -31,6 +34,10 @@ export default class LoginScreen extends Component {
   
   handlePass(event) {
 	  this.setState({pass: event.target.value})
+  }
+  
+  handleCheckPass(event) {
+	  this.setState({chckpass: event.target.value})
   }
   
   handleSubmitLogin(event) {
@@ -50,8 +57,31 @@ export default class LoginScreen extends Component {
 	  });
   }
   
+  handleSubmitSignup(event) {
+	if(this.state.chckpass === this.state.pass) {
+	  firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
+	   .then((userdata) =>
+	   alert('Successful'),
+		
+	  ).catch(function(error){
+		var errorCode = error.code;
+		var errorMessage = error.message;
+		if(errorCode==='auth/email-already-in-use') {
+			alert('Email already in use');
+		} else {
+			alert(errorMessage);
+		}
+		console.log(errorCode);
+	  });
+	} else {
+		alert('Passwords do not match');
+		console.log('Passwords don\'t match')
+	}
+  }
+  
   render() {
   return (
+	<div>
 		<div>
 		  <form>
 		  <Col sm={2}>
@@ -75,6 +105,32 @@ export default class LoginScreen extends Component {
 			<Button type="submit" bsStyle="info" onClick={this.handleSubmitLogin}>Login</Button>
 		  </ButtonToolbar>
 		</div>
+
+		<div>
+		  <form>
+		  <Col sm={2}>
+		  <label>
+		  Email:
+			<input type="text" value={this.state.email}  placeholder="Email" onChange={this.handleEmail}></input>
+		  </label>
+		  </Col>
+		  </form>
+		  
+		  <form>
+		  <Col sm={2}>
+		  <label>
+		  Password:
+			<input type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass}></input>
+			<input type="password" value={this.state.chckpass} placeholder="RetypePassword" onChange={this.handleCheckPass}/>
+		  </label>
+		  </Col>
+		  </form>
+		  
+		  <ButtonToolbar>
+			<Button type="submit" bsStyle="success" onClick={this.handleSubmitSignup}>Signup</Button>
+		  </ButtonToolbar>
+		</div>
+	</div>
 
 	);
 }
