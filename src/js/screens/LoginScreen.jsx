@@ -19,6 +19,7 @@ export default class LoginScreen extends Component {
 		  email: '',
 		  pass: '',	
 		  chckpass: '',
+		  user: '',
 	  };
 	  
 	  this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
@@ -26,8 +27,10 @@ export default class LoginScreen extends Component {
 	  this.handlePass = this.handlePass.bind(this);
 	  this.handleSubmitSignup = this.handleSubmitSignup.bind(this);
 	  this.handleCheckPass = this.handleCheckPass.bind(this);
+	  this.handleSignOut = this.handleSignOut.bind(this);
+	  this.userChange = this.userChange.bind(this);
   }
-	  
+
   handleEmail(event) {
 	  this.setState({email: event.target.value})
   }
@@ -40,10 +43,17 @@ export default class LoginScreen extends Component {
 	  this.setState({chckpass: event.target.value})
   }
   
+  userChange(event) {
+	  firebaseApp.auth().onAuthStateChanged(function(currentUser) {
+		window.location = '/event';
+	  })
+  }
+  
   handleSubmitLogin(event) {
 	  firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-	  .then((userdata) =>
-		alert('Successful'),
+	  .then(
+		this.userChange,
+		console.log("User Logged in"),
 		
 	  ).catch(function(error) {
 		  var errorCode = error.code;
@@ -59,11 +69,13 @@ export default class LoginScreen extends Component {
   
   handleSubmitSignup(event) {
 	if(this.state.chckpass === this.state.pass) {
-	  firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass)
+	  firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.chckpass)
 	   .then((userdata) =>
-	   alert('Successful'),
+	   alert('Sign Up Successful'),
+	   this.setState({pass: this.state.chckpass}),
+	   this.handleSubmitLogin,
 		
-	  ).catch(function(error){
+	).catch(function(error){
 		var errorCode = error.code;
 		var errorMessage = error.message;
 		if(errorCode==='auth/email-already-in-use') {
@@ -76,6 +88,23 @@ export default class LoginScreen extends Component {
 	} else {
 		alert('Passwords do not match');
 		console.log('Passwords don\'t match')
+	}
+  }
+  
+  handleSignOut(event) {
+	if(firebaseApp.auth().currentUser) {
+	  firebaseApp.auth().signOut()
+	  .then(function() {
+		  alert('Sign Out Successful')
+		  console.log(firebaseApp.auth().currentUser)
+	  }, function(error) {
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  alert(errorMessage);
+		  console.log = (errorCode)
+	  });
+	} else {
+		alert('No User to Sign Out');
 	}
   }
   
@@ -128,6 +157,11 @@ export default class LoginScreen extends Component {
 		  
 		  <ButtonToolbar>
 			<Button type="submit" bsStyle="success" onClick={this.handleSubmitSignup}>Signup</Button>
+		  </ButtonToolbar>
+		</div>
+		<div>
+		  <ButtonToolbar>
+		    <Button type="submit" bsStyle="danger" onClick={this.handleSignOut}>Log Out</Button>
 		  </ButtonToolbar>
 		</div>
 	</div>
