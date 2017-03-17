@@ -24,7 +24,6 @@ export default class LoginScreen extends Component {
 		this.handleEmail = this.handleEmail.bind(this);
 		this.handlePass = this.handlePass.bind(this);
 		this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
-		this.userChange = this.userChange.bind(this);
 		this.checkUser = this.checkUser.bind(this);
 	}
 	
@@ -39,8 +38,9 @@ export default class LoginScreen extends Component {
 	handleSubmitLogin(event) {
 		firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
 		.then(
-			this.userChange,
-		
+			this.checkUser,
+			console.log("User Logged in"),
+
 		).catch(function(error) {
 			var errorCode = error.code;
 			var errorMessage = error.message;
@@ -54,10 +54,13 @@ export default class LoginScreen extends Component {
 	}
 	
 	checkUser(event) {
+		alert("Got to checking user");
 		var user = firebaseApp.auth().currentUser;
 		if (user !== null) {
 			var uid = user.uid;
 			if(uid !== "46b99fbe-1da8-4686-a8ac-bcf57d95b065" && uid !== "xx0smfho9LTsUmsRd4KIkVWrUP53") {
+				alert("This is signing out")
+				alert("User does not have Admin permissions. Signing out user.")
 				firebaseApp.auth().signOut()
 				.then(function() {
 					alert('Sign Out Successful')
@@ -68,16 +71,13 @@ export default class LoginScreen extends Component {
 					alert(errorMessage);
 					console.log = (errorCode);
 				});
-			}else {
-				this.userChange
+			} else {
+				alert("User Accepted")
+				firebaseApp.auth().onAuthStateChanged(function() {
+					window.location='/event';
+				})
 			}
 		}
-	}
-	
-	userChange(event) {
-		firebaseApp.auth().onAuthStateChanged(function(currentUser) {
-			window.location = '/event';
-		})
 	}
 	
     render() {
