@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as PT } from 'react';
-import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
+import { Grid, Col, FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
 import DefaultNavBar from '../../js/components/NavBar.jsx';
 import '../../css/App.css';
 import * as firebase from 'firebase';
@@ -14,17 +14,18 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig, 'MainFirebase');
 
 export default class LoginScreen extends Component {
-		constructor(props) {
+	constructor(props) {
 		super(props);
 		this.state = {
 			email: '',
 			pass: '',
-			user: '',
 		};
+		
 		this.handleEmail = this.handleEmail.bind(this);
 		this.handlePass = this.handlePass.bind(this);
 		this.handleSubmitLogin = this.handleSubmitLogin.bind(this);
 		this.userChange = this.userChange.bind(this);
+		this.checkUser = this.checkUser.bind(this);
 	}
 	
 	handleEmail(event) {
@@ -35,65 +36,84 @@ export default class LoginScreen extends Component {
 		this.setState({pass: event.target.value})
 	}
 	
-  handleSubmitLogin(event) {
-	  firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
-	  .then(
-		this.userChange,
-		console.log("User Logged in"),
+	handleSubmitLogin(event) {
+		firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
+		.then(
+			this.userChange,
 		
-	  ).catch(function(error) {
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  if(errorCode==='auth/user-not-found'){
-			  alert('User not found');
-		  } else {
-			  alert(errorMessage);
-		  }
-		  console.log(errorCode);
-	  });
-  }
+		).catch(function(error) {
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			if(errorCode==='auth/user-not-found'){
+				alert('User not found');
+			} else {
+				alert(errorMessage);
+			}
+			console.log(errorCode);
+		});
+	}
+	
+	checkUser(event) {
+		var user = firebaseApp.auth().currentUser;
+		if (user !== null) {
+			var uid = user.uid;
+			if(uid !== "46b99fbe-1da8-4686-a8ac-bcf57d95b065" && uid !== "xx0smfho9LTsUmsRd4KIkVWrUP53") {
+				firebaseApp.auth().signOut()
+				.then(function() {
+					alert('Sign Out Successful')
+					console.log(firebaseApp.auth().currentUser)
+				}, function(error) {
+					var errorCode = error.code;
+					var errorMessage = error.message;
+					alert(errorMessage);
+					console.log = (errorCode);
+				});
+			}else {
+				this.userChange
+			}
+		}
+	}
 	
 	userChange(event) {
 		firebaseApp.auth().onAuthStateChanged(function(currentUser) {
 			window.location = '/event';
-			alert("State Change");
 		})
 	}
 	
     render() {
     return (
-      <div className="App">
+		<div className="App">
         <DefaultNavBar></DefaultNavBar>
         <Grid>
-          <Form horizontal>
+        <Form horizontal>
             <FormGroup controlId="formHorizontalUsername">
-              <Col componentClass={ControlLabel} sm={2}>
-                Username
-              </Col>
-              <Col sm={10}>
-                <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
-			  </Col>
+				<Col componentClass={ControlLabel} sm={2}>
+				Username
+				</Col>
+				<Col sm={10}>
+					<FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
+				</Col>
             </FormGroup>
 
             <FormGroup controlId="formHorizontalPassword">
-              <Col componentClass={ControlLabel} sm={2}>
+				<Col componentClass={ControlLabel} sm={2}>
                 Password
-              </Col>
-              <Col sm={10}>
-			  <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
-              </Col>
-            </FormGroup>
+				</Col>
+				<Col sm={10}>
+					<FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
+				</Col>
+			</FormGroup>
 
             <FormGroup>
-              <Col sm={5}>
+				<Col sm={5}>
                 <Button type="button" bsStyle="success" onClick={this.handleSubmitLogin}>
-                  Sign in
+                Sign in
                 </Button>
-              </Col>
+				</Col>
             </FormGroup>
-          </Form>
-        </Grid>
-	  </div>
-	  );
+        </Form>
+		</Grid>
+		</div>
+	);
   }
 }
