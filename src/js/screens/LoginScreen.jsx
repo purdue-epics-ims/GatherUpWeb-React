@@ -39,7 +39,6 @@ export default class LoginScreen extends Component {
 		firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass)
 		.then(
 			this.checkUser,
-			console.log("User Logged in"),
 
 		).catch(function(error) {
 			var errorCode = error.code;
@@ -54,17 +53,17 @@ export default class LoginScreen extends Component {
 	}
 	
 	checkUser(event) {
-		alert("Got to checking user");
 		var user = firebaseApp.auth().currentUser;
 		if (user !== null) {
 			var uid = user.uid;
+			console.log(uid);
 			if(uid !== "46b99fbe-1da8-4686-a8ac-bcf57d95b065" && uid !== "xx0smfho9LTsUmsRd4KIkVWrUP53") {
-				alert("This is signing out")
 				alert("User does not have Admin permissions. Signing out user.")
 				firebaseApp.auth().signOut()
 				.then(function() {
 					alert('Sign Out Successful')
 					console.log(firebaseApp.auth().currentUser)
+					
 				}, function(error) {
 					var errorCode = error.code;
 					var errorMessage = error.message;
