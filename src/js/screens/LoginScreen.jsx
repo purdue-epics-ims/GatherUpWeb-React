@@ -5,11 +5,12 @@ import '../../css/App.css';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBpBEVFlT7PpcPq3ZA_Yj0U6Lq1vQfvq0c",
-    authDomain: "dazzling-inferno-9963.firebaseapp.com",
-    databaseURL: "https://dazzling-inferno-9963.firebaseio.com",
-    storageBucket: "dazzling-inferno-9963.appspot.com",
-    messagingSenderId: "1046404833099"
+    apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
+    authDomain: "gatherup-development.firebaseapp.com",
+    databaseURL: "https://gatherup-development.firebaseio.com",
+    projectId: "gatherup-development",
+    storageBucket: "gatherup-development.appspot.com",
+    messagingSenderId: "55208332478"
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig, 'MainFirebase');
 
