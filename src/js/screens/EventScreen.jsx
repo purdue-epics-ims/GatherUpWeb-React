@@ -4,24 +4,16 @@ import DefaultNavBar from '../../js/components/NavBar.jsx';
 import '../../css/App.css';
 import * as firebase from 'firebase';
 
-const props = {};
-const propTypes = {
-    firebaseApp: PT.object.isRequired,
-    title: PT.string.isRequired,
-    onForward: PT.func,
-    onBack: PT.func
-  }
-
- const firebaseConfig = {
-    apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
-    authDomain: "gatherup-development.firebaseapp.com",
-    databaseURL: "https://gatherup-development.firebaseio.com",
-    projectId: "gatherup-development",
-    storageBucket: "gatherup-development.appspot.com",
-    messagingSenderId: "55208332478"
+const firebaseConfig = {
+  apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
+  authDomain: "gatherup-development.firebaseapp.com",
+  databaseURL: "https://gatherup-development.firebaseio.com",
+  projectId: "gatherup-development",
+  storageBucket: "gatherup-development.appspot.com",
+  messagingSenderId: "55208332478"
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig, 'Firebase');
- 
+
 export default class EventScreen extends Component {
   render() {
     return (
@@ -43,7 +35,7 @@ export class AddEventPanel extends Component {
     this.state = {
       open: false
     };
-	
+
   }
 
   render() {
@@ -64,7 +56,7 @@ export class AddEventForm extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
-	this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -142,26 +134,26 @@ export class CurrentEventPanel extends Component {
     this.state = {
       open: true
     };
-	this.deleteEvent = this.deleteEvent.bind(this);
-	this.updateEvent = this.updateEvent.bind(this);
-	this.listChange = this.listChange.bind(this);
-	
-	var dbref = firebaseApp.database.ref("https://dazzling-inferno-9963.firebase.io.com")
-	
+    this.deleteEvent = this.deleteEvent.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
+    this.listChange = this.listChange.bind(this);
+
+    var dbref = firebaseApp.database.ref("https://dazzling-inferno-9963.firebase.io.com")
+
   }
 
   deleteEvent() {
-	  
+
   }
-  
+
   updateEvent(event) {
-	  
+
   }
-  
+
   listChange(event) {
-	  
+
   }
-  
+
   render() {
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;

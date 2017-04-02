@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Grid, Col, Table, Panel, FormGroup, ControlLabel, FormControl, Button, Form, ButtonGroup, ButtonToolbar, Checkbox, Navbar, NavItem, Nav } from 'react-bootstrap';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import '../../css/NavBar.css';
 
 export default class DefaultNavBar extends Component {
