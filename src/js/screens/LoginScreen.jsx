@@ -58,7 +58,7 @@ export default class LoginScreen extends Component {
     if (user !== null) {
       var uid = user.uid;
       console.log(uid);
-      if(uid !== "46b99fbe-1da8-4686-a8ac-bcf57d95b065" && uid !== "xx0smfho9LTsUmsRd4KIkVWrUP53") {
+      if(uid !== "9gwVCt6ktCNDdrwUOjGdZrnsTtK2") {
         alert("User does not have Admin permissions. Signing out user.")
         firebaseApp.auth().signOut()
         .then(function() {
@@ -79,8 +79,8 @@ export default class LoginScreen extends Component {
       }
     }
   }
-
-  render() {
+	
+    render() {
     return (
       <div className="App">
         <DefaultNavBar></DefaultNavBar>
