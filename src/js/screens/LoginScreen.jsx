@@ -1,4 +1,4 @@
-import React, { Component, PropTypes as PT } from 'react';
+import React, { Component } from 'react';
 import { Grid, Col, FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
 import DefaultNavBar from '../../js/components/NavBar.jsx';
 import '../../css/App.css';
@@ -82,13 +82,13 @@ export default class LoginScreen extends Component {
       }
     }
   }
-	
+
     render() {
     return ( //Some stuff that is not fully understood but totally works.
       <div className="App">
         <DefaultNavBar></DefaultNavBar>
         <Grid>
-		
+
           <Form horizontal>
 		  //Username
             <FormGroup controlId="formHorizontalUsername">
@@ -116,9 +116,9 @@ export default class LoginScreen extends Component {
                 </Button>
               </Col>
             </FormGroup>
-			
+
           </Form>
-		  
+
         </Grid>
       </div>
     );
