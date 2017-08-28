@@ -17,6 +17,7 @@ export default class DefaultNavBar extends Component {
             <Nav>
               <NavItem eventKey={1} href="/">Home</NavItem>
               <NavItem eventKey={2} href="./event">Event</NavItem>
+              <NavItem eventKey={3} href="./signup">Sign Up</NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

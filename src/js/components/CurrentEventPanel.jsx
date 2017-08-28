@@ -15,11 +15,10 @@ export default class CurrentEventPanel extends Component {
   }
 
   componentDidMount(){
-    var x = this
+    var x = this;
     this.props.firebaseApp.database().ref('event').on('child_added', (snapshot) => {
-      console.log(x.state.events);
       var newEvents = x.state.events.slice();
-      newEvents.push(snapshot.val())
+      newEvents.push(snapshot.val());
       x.setState({events: newEvents});
     });
   }

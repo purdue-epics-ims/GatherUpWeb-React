@@ -49,7 +49,7 @@ export default class SignUpScreen extends Component {
       alert('Sign Up Successful'), //Notifies admin that the user has now been added
       firebaseApp.auth().onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
 		//**Note: possibly need to keep admin on signup page for multiple users. If so, need to add code to clear text fields once user has been added.
-	  
+
     ).catch(function(error){ //Error catcher
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -73,7 +73,7 @@ render() {
 
       <Grid>
         <Form horizontal>
-		  //Username
+		      {/* Username */}
           <FormGroup>
             <Col componentClass={ControlLabel} sm={2}>
               Username
@@ -82,7 +82,7 @@ render() {
               <FormControl type="email" value={this.state.email} placeholder="Email" onChange={this.handleEmail}/>
             </Col>
           </FormGroup>
-		  //Passwrod
+		      {/* Passwrod */}
           <FormGroup>
             <Col componentClass={ControlLabel} sm={2}>
               Password
@@ -91,20 +91,20 @@ render() {
               <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePassword}/>
             </Col>
           </FormGroup>
-		  //Retype Password
+		      {/* Confirm Password */}
           <FormGroup>
             <Col componentClass={ControlLabel} sm={2}>
-              Re-Type Password
+              Confirm Password
             </Col>
             <Col sm={10}>
               <FormControl type="password" value={this.state.checkpass} placeholder="Re-Enter Password" onChange={this.handleNewPassword}/>
             </Col>
           </FormGroup>
-		  //Signup Button
+		      {/* Signup Button */}
           <FormGroup>
             <Col sm={5}>
               <Button type="button" bsStyle="info" onClick={this.handleSignUp}>
-                Sign in
+                Sign Up
               </Button>
             </Col>
           </FormGroup>

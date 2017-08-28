@@ -42,8 +42,7 @@ export default class LoginScreen extends Component {
   handleSubmitLogin(event) {
     firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.pass) //function call for firebase logins with email and passwords
     .then(
-      this.checkUser,
-
+      this.checkUser
     ).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -86,11 +85,13 @@ export default class LoginScreen extends Component {
     render() {
     return ( //Some stuff that is not fully understood but totally works.
       <div className="App">
-        <DefaultNavBar></DefaultNavBar>
+        
+        <DefaultNavBar />
+
         <Grid>
 
           <Form horizontal>
-		  //Username
+		        {/* Username */}
             <FormGroup controlId="formHorizontalUsername">
               <Col componentClass={ControlLabel} sm={2}>
                 Username
@@ -99,7 +100,7 @@ export default class LoginScreen extends Component {
                 <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
               </Col>
             </FormGroup>
-			//Password
+			      {/* Password */}
             <FormGroup controlId="formHorizontalPassword">
               <Col componentClass={ControlLabel} sm={2}>
                 Password
@@ -108,7 +109,7 @@ export default class LoginScreen extends Component {
                 <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
               </Col>
             </FormGroup>
-			//Submit Button
+			      {/* Submit Button */}
             <FormGroup>
               <Col sm={5}>
                 <Button type="button" bsStyle="success" onClick={this.handleSubmitLogin}>
