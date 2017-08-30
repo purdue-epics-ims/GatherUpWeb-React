@@ -9,17 +9,6 @@ import {
 } from 'react-redux-firebase';
 import '../../css/App.css';
 
-//This is to configure firebase database. Should not be here. Delete once Redux has been implemented.
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
-//   authDomain: "gatherup-development.firebaseapp.com",
-//   databaseURL: "https://gatherup-development.firebaseio.com",
-//   projectId: "gatherup-development",
-//   storageBucket: "gatherup-development.appspot.com",
-//   messagingSenderId: "55208332478"
-// };
-// const firebaseApp = firebase.initializeApp(firebaseConfig, 'MainFirebase'); //allos for firebase calls using firebaseApp
-
 //Code for the Login Screen
 class LoginScreen extends Component {
   //used to set initial states and defines functions
@@ -125,8 +114,6 @@ export default compose(
   firebaseConnect([
   ]),
   connect(
-    ({ firebase }) => ({ // state.firebase
-      auth: pathToJS(firebase, 'auth')
-    })
+    ({ firebase }) => ({})
   )
 )(LoginScreen)

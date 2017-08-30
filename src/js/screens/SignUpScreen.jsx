@@ -116,8 +116,6 @@ export default compose(
   firebaseConnect([
   ]),
   connect(
-    ({ firebase }) => ({ // state.firebase
-      auth: pathToJS(firebase, 'auth')
-    })
+    ({ firebase }) => ({})
   )
 )(SignUpScreen)
