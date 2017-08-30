@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { Grid, Col, FormGroup, ControlLabel, FormControl, Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+  firebaseConnect,
+  pathToJS
+} from 'react-redux-firebase';
 import '../../css/App.css';
-import * as firebase from 'firebase';
-
-//This is to configure firebase database. Should not be here. Delete once Redux has been implemented.
-const firebaseConfig = {
-  apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
-  authDomain: "gatherup-development.firebaseapp.com",
-  databaseURL: "https://gatherup-development.firebaseio.com",
-  projectId: "gatherup-development",
-  storageBucket: "gatherup-development.appspot.com",
-  messagingSenderId: "55208332478"
-};
-const firebaseApp = firebase.initializeApp(firebaseConfig); //allows for firebase calls using firebaseApp
 
 //Code for SignUp Screen. Possibly rename to Add User
-export default class SignUpScreen extends Component {
+class SignUpScreen extends Component {
   //used to set initial states and defines functions
   constructor(props) {
     super(props);
@@ -44,10 +38,10 @@ export default class SignUpScreen extends Component {
 
   handleSignUp(event) {
     if(this.state.checkpass === this.state.pass) { //checks if the initial password input matches the retyped password
-      firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass) //function call to crete new authentication credentials and user
+      this.props.firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass) //function call to crete new authentication credentials and user
       .then((userdata) =>
       alert('Sign Up Successful'), //Notifies admin that the user has now been added
-      firebaseApp.auth().onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
+      this.props.firebase.auth().onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
 		//**Note: possibly need to keep admin on signup page for multiple users. If so, need to add code to clear text fields once user has been added.
 
     ).catch(function(error){ //Error catcher
@@ -116,3 +110,14 @@ render() {
   );
 }
 }
+
+
+export default compose(
+  firebaseConnect([
+  ]),
+  connect(
+    ({ firebase }) => ({ // state.firebase
+      auth: pathToJS(firebase, 'auth')
+    })
+  )
+)(SignUpScreen)

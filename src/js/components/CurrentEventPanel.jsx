@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+  firebaseConnect,
+  pathToJS
+} from 'react-redux-firebase';
 
-export default class CurrentEventPanel extends Component {
+class CurrentEventPanel extends Component {
 
   constructor(...args) {
     super(...args);
@@ -16,7 +22,7 @@ export default class CurrentEventPanel extends Component {
 
   componentDidMount(){
     var x = this;
-    this.props.firebaseApp.database().ref('event').on('child_added', (snapshot) => {
+    this.props.firebase.database().ref('event').on('child_added', (snapshot) => {
       var newEvents = x.state.events.slice();
       newEvents.push(snapshot.val());
       x.setState({events: newEvents});
@@ -120,3 +126,12 @@ render() {
   );
 }
 }
+
+export default compose(
+  firebaseConnect([]),
+  connect(
+    ({ firebase }) => ({ // state.firebase
+      auth: pathToJS(firebase, 'auth')
+    })
+  )
+)(CurrentEventPanel)
