@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore, compose } from 'redux';
+import { reactReduxFirebase } from 'react-redux-firebase'
+
 import LoginScreen from './js/screens/LoginScreen.jsx';
 import HomeScreen from './js/screens/HomeScreen.jsx';
 import EventScreen from './js/screens/EventScreen.jsx';
+import SignUpScreen from './js/screens/SignUpScreen.jsx';
+import rootReducer from './js/redux/reducers/index';
 
 // webpack-dev-server --progress --inline
 // Bootstrap
@@ -12,13 +18,33 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 import './css/index.css';
 
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
+  authDomain: "gatherup-development.firebaseapp.com",
+  databaseURL: "https://gatherup-development.firebaseio.com",
+  projectId: "gatherup-development",
+  storageBucket: "gatherup-development.appspot.com",
+  messagingSenderId: "55208332478"
+}
+
+// Add redux Firebase to compose
+const createStoreWithFirebase = compose(
+  reactReduxFirebase(firebaseConfig, { userProfile: 'users' }),
+)(createStore)
+
+// Create store with reducers and initial state
+const store = createStoreWithFirebase(rootReducer, {})
+
 ReactDOM.render(
-	<div>
+	<Provider store={store}>
 		<Router history={browserHistory}>
-			<Route path="/" component={EventScreen} />
-		  <Route path="/login" component={LoginScreen} />
-			<Route path="/home" component={HomeScreen} />
+			<Route path="/" component={LoginScreen}/>
+			<Route path="/event" component={EventScreen}/>
+			<Route path="/home" component={HomeScreen}/>
+			<Route path="/signup" component={SignUpScreen}/>
 		</Router>
-	</div>,
+	</Provider>,
   document.getElementById('app')
 );
