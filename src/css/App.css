@@ -5,13 +5,13 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 150px;
 }
 
 .App-header {
   background-color: #222;
-  height: 200px;
-  padding: 20px;
+  height: 250px;
+  padding: 50px;
   color: white;
 }
 
@@ -25,12 +25,12 @@
 }
 
 input {
-	width: 80%;
+	width: 90%;
 	max-width: 350px;
 	margin-bottom: 5px;
 }
 
 .main-box {
-	margin: 20px auto;
+	margin: 80px auto;
 	background-color: rgba(255, 255, 255, 0.75);
 }

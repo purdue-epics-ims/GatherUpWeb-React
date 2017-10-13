@@ -13,7 +13,7 @@ export default class AddEventPanel extends Component {
   }
 
   render() {
-    var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Add Event</h4></div>;
+    var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h2>Add Event</h2></div>;
     var foot = null;
     var style = "primary";
     return (

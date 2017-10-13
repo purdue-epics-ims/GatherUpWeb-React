@@ -67,7 +67,7 @@ class CurrentEventPanel extends Component {
                         <ButtonGroup bsSize="small">
                           <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
                           <Button type="button" bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
-                          <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
+                          <Button bsStyle="warning"><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
                     </td>
