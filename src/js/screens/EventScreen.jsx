@@ -1,70 +1,67 @@
 import React, { Component } from 'react';
-import { Grid } from 'react-bootstrap';
-import { Col, FormGroup, FormControl, Button, ControlLabel, Form } from 'react-bootstrap';
-import AddEventPanel from '../../js/components/AddEventPanel.jsx';
-import DefaultNavBar from '../../js/components/NavBar.jsx';
-import CurrentEventPanel from '../../js/components/CurrentEventPanel.jsx';
-import ReactModal from 'react-modal';
+import { Grid, Col, FormGroup, FormControl, Button, ControlLabel, Form, Modal } from 'react-bootstrap';
 import {firebaseConnect, pathToJS } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import AddEventPanel from '../../js/components/AddEventPanel.jsx';
+//TODO: Is it best practice to go to /js folder?
+import AddEventForm from '../components/AddEventForm';
+import DefaultNavBar from '../../js/components/NavBar.jsx';
+import CurrentEventPanel from '../../js/components/CurrentEventPanel.jsx';
 import '../../css/App.css';
 
 class EventScreen extends Component {
 
 	constructor () {
-	    super();
-	    this.state = {
-	      showModal: false
-	    };
+		super();
+		this.state = {
+			showModal: false
+		};
 
-	    this.handleOpenModal = this.handleOpenModal.bind(this);
-	    this.handleCloseModal = this.handleCloseModal.bind(this);
+		this.handleOpenModal = this.handleOpenModal.bind(this);
+		this.handleCloseModal = this.handleCloseModal.bind(this);
 	}
 
-	  handleOpenModal () {
-	    this.setState({ showModal: true });
-	  }
+	handleOpenModal () {
+		this.setState({ showModal: true });
+		console.log(this.props.firebase);
+	}
 
-	  handleCloseModal () {
-	    this.setState({ showModal: false });
-	  }
+	handleCloseModal () {
+		this.setState({ showModal: false });
+	}
 
 	render() {
-    return (
-      <div className="App">
-        <DefaultNavBar></DefaultNavBar>
-        <Grid>
-					<button onClick={this.handleOpenModal}>Add Event</button>
-						 <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example">
-							 <div><Col md={12} className="main-box">
-								 <h1>Add an Event</h1>
-								 <Col xs={12} md={6}>
-									 <form>
-										 <input type="text" placeholder="Name of the Event" />
-										 <input type="text" placeholder="mm/dd/yyyy" />
-										 <input type="text" placeholder="hh:mm" />
-									 </form>
-								 </Col>
-								 <Col xs={12} md={6}>
-									 <textarea type="text" placeholder="Description" />
-								 </Col>
-							 </Col></div>
-							 <button onClick={this.handleCloseModal}>Submit</button>
-						 </ReactModal>
-          <AddEventPanel></AddEventPanel>
-          <CurrentEventPanel></CurrentEventPanel>
-        </Grid>
-      </div>
-
-    );
-  }
+		return (
+			<div className="App">
+				<DefaultNavBar></DefaultNavBar>
+				<Grid>
+					{/* TODO: How to split up Modal and Button? Need to or not? */}
+					<Button onClick={this.handleOpenModal}>Add Event</Button>
+					{/* TODO: Ask about onHide? */}
+					<Modal show={this.state.showModal} onHide={this.state.handleCloseModal}>
+						<Modal.Header closeButton>
+							<Modal.Title>Modal Title</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							<AddEventForm></AddEventForm>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button onClick={this.handleCloseModal}>Submit</Button>
+						</Modal.Footer>
+					</Modal>
+					<AddEventPanel></AddEventPanel>
+					<CurrentEventPanel></CurrentEventPanel>
+				</Grid>
+			</div>
+		);
+	}
 }
 
 export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
+	firebaseConnect([
+	]),
+	connect(
+		({ firebase }) => ({})
+	)
 )(EventScreen)

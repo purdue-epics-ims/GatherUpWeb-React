@@ -29,6 +29,7 @@ class LoginScreen extends Component {
   }
 
   handlePass(event) {
+    console.log(event.target.value);
     this.setState({pass: event.target.value})
   }
 

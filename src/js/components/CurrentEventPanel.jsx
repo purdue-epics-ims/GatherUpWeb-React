@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -28,8 +29,12 @@ class CurrentEventPanel extends Component {
     });
   }
 
+  generateCSV() {
 
-  deleteEvent() {
+  }
+
+  deleteEvent(event) {
+    console.log(this.state.events);
 
   }
 
@@ -66,7 +71,7 @@ class CurrentEventPanel extends Component {
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
                           <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
-                          <Button type="button" bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
+                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(event)}><Glyphicon glyph="remove" /> Delete</Button>
                           <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
