@@ -1,0 +1,45 @@
+.sign-in-screen-logo {
+  margin: 50px 0;
+  height: 250px;
+}
+
+.sign-in-card {
+  color: #22F0DD;
+}
+
+.sign-in-card > h4 {
+  font-weight: 100;
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+.sign-in-card > input,
+.sign-in-card > input:active,
+.sign-in-card > input:focus {
+  color: inherit;
+  margin: 20px auto;
+  width: 75%;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 2px solid #22F0DD;
+}
+
+
+
+.sign-in-card > input::-webkit-input-placeholder {
+color: #22F0DD !important;
+}
+
+.sign-in-card > input:-moz-placeholder { /* Firefox 18- */
+color: #22F0DD !important;
+}
+
+.sign-in-card > input::-moz-placeholder {  /* Firefox 19+ */
+color: #22F0DD !important;
+}
+
+.sign-in-card > input:-ms-input-placeholder {
+color: #22F0DD !important;
+}

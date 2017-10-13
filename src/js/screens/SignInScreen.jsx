@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Grid, Col, FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
-import DefaultNavBar from '../../js/components/NavBar.jsx';
+import { Row, Col, FormControl, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  firebaseConnect,
-  pathToJS
-} from 'react-redux-firebase';
-import '../../css/App.css';
+import { firebaseConnect } from 'react-redux-firebase';
+
+import logo from '../../img/logo.png'
+import '../../css/SignInScreen.css';
 
 //Code for the Login Screen
 class LoginScreen extends Component {
@@ -70,41 +68,22 @@ class LoginScreen extends Component {
     return ( //Some stuff that is not fully understood but totally works.
       <div className="App">
 
-        <DefaultNavBar />
+        <img className="sign-in-screen-logo" alt="Logo" src={logo} />
 
-        <Grid>
+        <Row>
+          <Col xs={12} sm={6} smOffset={3}>
 
-          <Form horizontal>
-		        {/* Username */}
-            <FormGroup controlId="formHorizontalUsername">
-              <Col componentClass={ControlLabel} sm={2}>
-                Username
-              </Col>
-              <Col sm={10}>
-                <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
-              </Col>
-            </FormGroup>
-			      {/* Password */}
-            <FormGroup controlId="formHorizontalPassword">
-              <Col componentClass={ControlLabel} sm={2}>
-                Password
-              </Col>
-              <Col sm={10}>
-                <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
-              </Col>
-            </FormGroup>
-			      {/* Submit Button */}
-            <FormGroup>
-              <Col sm={5}>
-                <Button type="button" bsStyle="success" onClick={this.handleSubmitLogin}>
-                  Sign in
-                </Button>
-              </Col>
-            </FormGroup>
+            <Form className="card sign-in-card" horizontal>
+              <h4>Sign In</h4>
+              <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
+              <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
+              <Button type="button" bsStyle="success" onClick={this.handleSubmitLogin}>
+                Sign in
+              </Button>
+            </Form>
 
-          </Form>
-
-        </Grid>
+          </Col>
+        </Row>
       </div>
     );
   }
