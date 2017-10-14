@@ -14,7 +14,8 @@ class CurrentEventPanel extends Component {
     super(...args);
     this.state = {
       open: true,
-      events: []
+      events: [],
+      keys: []
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
@@ -24,7 +25,10 @@ class CurrentEventPanel extends Component {
     var x = this;
     this.props.firebase.database().ref('event').on('child_added', (snapshot) => {
       var newEvents = x.state.events.slice();
+      var testboy = x.state.keys;
       newEvents.push(snapshot.val());
+      testboy.push(snapshot.key);
+      console.log(x.state.keys);
       x.setState({events: newEvents});
     });
   }
@@ -33,9 +37,9 @@ class CurrentEventPanel extends Component {
 
   }
 
-  deleteEvent(event) {
-    console.log(this.state.events);
-
+  deleteEvent(key) {
+    console.log(key);
+    this.props.firebase.database().ref('event').child(key).remove();
   }
 
   updateEvent(event) {
@@ -44,6 +48,7 @@ class CurrentEventPanel extends Component {
 
   render() {
     const {events} = this.state;
+    const {keys} = this.state;
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;
     var style = "primary"
@@ -71,7 +76,7 @@ class CurrentEventPanel extends Component {
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
                           <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
-                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(event)}><Glyphicon glyph="remove" /> Delete</Button>
+                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(keys[index])}><Glyphicon glyph="remove" /> Delete</Button>
                           <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
