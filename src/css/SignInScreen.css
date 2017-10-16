@@ -26,20 +26,34 @@
   border-bottom: 2px solid #22F0DD;
 }
 
-
-
 .sign-in-card > input::-webkit-input-placeholder {
-color: #22F0DD !important;
+  color: #22F0DD !important;
 }
 
 .sign-in-card > input:-moz-placeholder { /* Firefox 18- */
-color: #22F0DD !important;
+  color: #22F0DD !important;
 }
 
 .sign-in-card > input::-moz-placeholder {  /* Firefox 19+ */
-color: #22F0DD !important;
+  color: #22F0DD !important;
 }
 
 .sign-in-card > input:-ms-input-placeholder {
-color: #22F0DD !important;
+  color: #22F0DD !important;
+}
+
+.sign-in-card > button, .sign-in-card > button:focus,
+.sign-in-card > button:hover, .sign-in-card > button:active,
+.sign-in-card > button:active:focus,
+.sign-in-card > button:active:hover {
+  background-color: #22F0DD;
+  background-image: none;
+  color: #FFFFFF;
+  font-size: 16px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  border-radius: 3px;
+  border-color: transparent;
+  padding: 10px 50px;
+  margin: 20px auto;
+  outline: none;
 }

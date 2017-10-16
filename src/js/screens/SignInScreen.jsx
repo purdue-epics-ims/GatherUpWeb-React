@@ -70,20 +70,22 @@ class LoginScreen extends Component {
 
         <img className="sign-in-screen-logo" alt="Logo" src={logo} />
 
-        <Row>
-          <Col xs={12} sm={6} smOffset={3}>
+        <div className="container-fluid">
+          <Row>
+            <Col xs={12} sm={6} smOffset={3}>
 
-            <Form className="card sign-in-card" horizontal>
-              <h4>Sign In</h4>
-              <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
-              <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
-              <Button type="button" bsStyle="success" onClick={this.handleSubmitLogin}>
-                Sign in
-              </Button>
-            </Form>
+              <Form className="card sign-in-card" horizontal>
+                <h4>Sign In</h4>
+                <FormControl type="email" value={this.state.email} placeholder="Username" onChange={this.handleEmail}/>
+                <FormControl type="password" value={this.state.pass} placeholder="Password" onChange={this.handlePass} />
+                <Button onClick={this.handleSubmitLogin}>
+                  Sign in
+                </Button>
+              </Form>
 
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
