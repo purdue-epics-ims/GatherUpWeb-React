@@ -13,39 +13,30 @@ class SignUpForm extends Component {
     checkpass: ''
   }
 
-  handleSubmitLogin(event) {
-    this.props.firebase.login({email: this.state.email, password: this.state.pass}) //function call for firebase logins with email and passwords
-    .then((uid, user) => {
-      if (user !== null) {
-        if(uid !== "9gwVCt6ktCNDdrwUOjGdZrnsTtK2") { //Checks the logins id with the admins id
-          alert("User does not have Admin permissions. Signing out user.") //Alerts logger that *insert preferred pronoun here* does not have proper credentials
-          this.props.firebase.logout() //call to sign out current user
-          .then(function() {
-            alert('Sign Out Successful')
-            console.log(this.props.auth.currentUser) //development check
+  handleSignUp(event) {
+    if(this.state.checkpass === this.state.pass) { //checks if the initial password input matches the retyped password
+      this.props.firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass) //function call to crete new authentication credentials and user
+      .then((userdata) =>
+      alert('Sign Up Successful'), //Notifies admin that the user has now been added
+      this.props.firebase.auth().onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
+      //**Note: possibly need to keep admin on signup page for multiple users. If so, need to add code to clear text fields once user has been added.
 
-          }, function(error) { //error output
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            alert(errorMessage); //Alerts user about the error type
-            console.log = (errorCode); //development check
-          });
-        } else {
-          alert("User Accepted")
-          window.location='/event'; //redirects user to events page after successful log in.
-        }
-      }
-    }).catch(function(error) {
+    ).catch(function(error){ //Error catcher
       var errorCode = error.code;
       var errorMessage = error.message;
-      if(errorCode==='auth/user-not-found'){
-        alert('User not found');
+      if(errorCode==='auth/email-already-in-use') {
+        alert('Email already in use');
       } else {
         alert(errorMessage);
       }
-      console.log(errorCode);
+      console.log(errorCode); //Development check
+      console.log(errorMessage); //Development check
     });
+  } else {
+    alert('Passwords do not match'); //alerts user that the two text password text fields do not match each other
+    console.log('Passwords don\'t match') //Development check
   }
+}
 
   render() {
     return (
@@ -70,8 +61,8 @@ class SignUpForm extends Component {
           placeholder="Confirm Password"
           onChange={event => this.setState({checkpass: event.target.value})} />
 
-        <Button onClick={this.handleSubmitLogin.bind(this)}>
-          Sign in
+        <Button onClick={this.handleSignUp.bind(this)}>
+          Sign Up
         </Button>
       </div>
     );

@@ -64,7 +64,7 @@ class SignInForm extends Component {
           onChange={event => this.setState({pass: event.target.value})} />
 
         <Button onClick={this.handleSubmitLogin.bind(this)}>
-          Sign in
+          Sign In
         </Button>
       </div>
     );
