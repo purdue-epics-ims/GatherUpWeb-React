@@ -24,7 +24,7 @@ class CurrentEventPanel extends Component {
     var x = this;
     this.props.firebase.database().ref('event').on('child_added', (snapshot) => {
       var newEvents = x.state.events.slice();
-      newEvents.push(snapshot.val());
+      newEvents.push(snapshot);
       x.setState({events: newEvents});
     });
   }
@@ -34,7 +34,7 @@ class CurrentEventPanel extends Component {
   }
 
   deleteEvent(event) {
-    console.log(this.state.events);
+    console.log(event);
 
   }
 
@@ -63,7 +63,7 @@ class CurrentEventPanel extends Component {
             <tbody>
               {events.map((event, index) => {
                 return(
-                  <tr key={event.dateID + index}>
+                  <tr key={event.val().dateID + index}>
                     <td>{new Date(event.dateID).toDateString()}.</td>
                     <td>{event.name}</td>
                     <td>{event.description}</td>
