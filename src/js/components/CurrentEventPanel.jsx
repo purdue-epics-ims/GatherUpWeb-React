@@ -16,7 +16,7 @@ class CurrentEventPanel extends Component {
       events: []
     };
     this.deleteEvent = this.deleteEvent.bind(this);
-    this.updateEvent = this.updateEvent.bind(this);
+    this.generateCSVEvent = this.generateCSVEvent.bind(this);
   }
 
   componentDidMount(){
@@ -36,6 +36,7 @@ class CurrentEventPanel extends Component {
  generateCSVEvent(eventID) {
 
            var csv = '';
+           //from the old web links
            //var myDataR ef = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event');
            var myDataRef= this.props.firebase.database().ref('event')
            var totalCount = 0;
@@ -45,6 +46,7 @@ class CurrentEventPanel extends Component {
            myDataRef.orderByChild("dateID").on('child_added', function(snapshot){
              var eventMessage = snapshot.val();
              a.download = "AttendanceFor_"+eventMessage.name + ".csv";
+             // from tjhe old web links
              //var myDataRef2 = new this.('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
             // var myDataRef3 = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
             var myDataRef2=  new this.props.firebase.database().ref('event/'+snapshot.name()+'/attendess');
