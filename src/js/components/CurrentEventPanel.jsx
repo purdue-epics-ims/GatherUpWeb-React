@@ -36,45 +36,46 @@ class CurrentEventPanel extends Component {
  generateCSVEvent(eventID) {
 
            var csv = '';
-           var myDataRef = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event');
+           //var myDataR ef = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event');
+           var myDataRef= this.props.firebase.database().ref('event')
            var totalCount = 0;
            var count = 0;
            var a = document.createElement('a');
 
+           myDataRef.orderByChild("dateID").on('child_added', function(snapshot){
+             var eventMessage = snapshot.val();
+             a.download = "AttendanceFor_"+eventMessage.name + ".csv";
+             //var myDataRef2 = new this.('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
+            // var myDataRef3 = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
+            var myDataRef2=  new this.props.firebase.database().ref('event/'+snapshot.name()+'/attendess');
+            var myDataRef3=  new this.props.firebase.database().ref('event/' +snapshot.name()+'/attendess');
 
-
-
-
-
-           myDataRef.orderByChild("dateID").on('child_added', function(snapshot) 
-           var eventMessage = snapshot.val();
-
-
-
-
-           a.download = "AttendanceFor_"+eventMessage.name + ".csv";
-           var myDataRef2 = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
-           var myDataRef3 = new Firebase('https://dazzling-inferno-9963.firebaseio.com/event/'+snapshot.name()+"/attendees");
-           if(snapshot.name() == eventID)
-           myDataRef3.once("value", function(snapshot3)
-           totalCount = snapshot3.numChildren();
-           if (totalCount==0)
-           window.alert('No data to download');
-           return;
-           {'}'}
+            if(snapshot.name() == eventID){
+               myDataRef3.once("value", function(snapshot3){
+                 totalCount = snapshot3.numChildren();
+                 if (totalCount==0){
+                   window.alert('No data to download');
+                   return;
+           }
            csv = 'puid,firstname,lastname,email,domestic/int,year\n';
            count = 0;
-           myDataRef2.on('child_added', function(snapshot2)
-           if(snapshot2.val().email.indexOf("@purdue.edu")&gt;-1 &amp;&amp; snapshot2.val().puid=="")
+           myDataRef2.on('child_added', function(snapshot2){
+           if (snapshot2.val().email.indexOf("@purdue.edu")>-1 && snapshot2.val().puid==""){
            csv += "**********,"+ snapshot2.val().firstname + ","+ snapshot2.val().lastname+","+snapshot2.val().email + "," + "," + '\n';
-           else
+            }else{
            csv += ""+snapshot2.val().puid + ","+ snapshot2.val().firstname + ","+ snapshot2.val().lastname+","+snapshot2.val().email + "," + snapshot2.val().intstatus + "," + snapshot2.val().year + '\n';
-
+            }
            count++;
-           if(count == totalCount)
+           if(count == totalCount){
            a.href='data:text/csv;base64,' + btoa(csv);
-           a.click();
+           a.click();  }
+           });
+         });
+       }
+     });
 
+
+   };
 
   render() {
     const {events} = this.state;
@@ -90,6 +91,10 @@ class CurrentEventPanel extends Component {
               <tr>
                 <th>Date</th>
                 <th>Name</th>
+
+
+
+
                 <th>Description</th>
                 <th>Actions</th>
               </tr>
