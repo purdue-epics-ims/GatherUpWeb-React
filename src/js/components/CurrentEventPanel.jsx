@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -18,28 +17,40 @@ class CurrentEventPanel extends Component {
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
+    this.csvEvent = this.csvEvent.bind(this); //to download csv
   }
 
   componentDidMount(){
     var x = this;
     this.props.firebase.database().ref('event').on('child_added', (snapshot) => {
       var newEvents = x.state.events.slice();
-      newEvents.push(snapshot);
+      newEvents.push(snapshot.val());
       x.setState({events: newEvents});
     });
   }
 
-  generateCSV() {
+
+  deleteEvent() {
 
   }
-
-  deleteEvent(event) {
-    console.log(event);
-
-  }
-
+//update event fuction is not completed
   updateEvent(event) {
+    // A post entry.
+  var postData = {
+    dateid:event.dateID
+    name:event.name
+    discription:event.description
+  };
 
+  // Get a key for a new Post.
+  var newPostKey = this.props.firebase.database().ref('event').child('posts').push().key;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  var updates = {};
+  updates['/posts/' + newPostKey] = postData;
+  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  return this.props.firebase.database().ref('event').update(updates)
   }
 
   render() {
@@ -63,7 +74,7 @@ class CurrentEventPanel extends Component {
             <tbody>
               {events.map((event, index) => {
                 return(
-                  <tr key={event.val().dateID + index}>
+                  <tr key={event.dateID + index}>
                     <td>{new Date(event.dateID).toDateString()}.</td>
                     <td>{event.name}</td>
                     <td>{event.description}</td>
@@ -71,8 +82,8 @@ class CurrentEventPanel extends Component {
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
                           <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
-                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(event)}><Glyphicon glyph="remove" /> Delete</Button>
-                          <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
+                          <Button type="button" bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
+                          <Button bsStyle="warning"><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
                     </td>

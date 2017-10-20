@@ -3,11 +3,10 @@ import { Grid, Col, FormGroup, FormControl, Button, ControlLabel, Form, Modal } 
 import {firebaseConnect, pathToJS } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import AddEventPanel from '../../js/components/AddEventPanel.jsx';
-//TODO: Is it best practice to go to /js folder?
+import AddEventPanel from '../components/AddEventPanel.jsx';
 import AddEventForm from '../components/AddEventForm';
-import DefaultNavBar from '../../js/components/NavBar.jsx';
-import CurrentEventPanel from '../../js/components/CurrentEventPanel.jsx';
+import DefaultNavBar from '../components/NavBar.jsx';
+import CurrentEventPanel from '../components/CurrentEventPanel.jsx';
 import '../../css/App.css';
 
 class EventScreen extends Component {
@@ -36,10 +35,8 @@ class EventScreen extends Component {
 			<div className="App">
 				<DefaultNavBar></DefaultNavBar>
 				<Grid>
-					{/* TODO: How to split up Modal and Button? Need to or not? */}
-					<Button onClick={this.handleOpenModal}>Add Event</Button>
-					{/* TODO: Ask about onHide? */}
-					<Modal show={this.state.showModal} onHide={this.state.handleCloseModal}>
+					<Button id="addEventModalButton" onClick={this.handleOpenModal}>Add Event</Button>
+					<Modal show={this.state.showModal} onHide={this.handleCloseModal}>
 						<Modal.Header closeButton>
 							<Modal.Title>Modal Title</Modal.Title>
 						</Modal.Header>
