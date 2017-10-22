@@ -111,7 +111,7 @@ class CurrentEventPanel extends Component {
                     <td>
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
-                          <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
+                          <Button type="button" bsStyle="info" onClick={this.generateCSVEvent(eventID)}><Glyphicon glyph="arrow-down" /> CSV</Button>
                           <Button type="button" bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
                           <Button bsStyle="warning"><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
