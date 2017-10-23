@@ -5,10 +5,8 @@ import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import { reactReduxFirebase } from 'react-redux-firebase'
 
-import LoginScreen from './js/screens/LoginScreen.jsx';
-import HomeScreen from './js/screens/HomeScreen.jsx';
+import SignInScreen from './js/screens/SignInScreen.jsx';
 import EventScreen from './js/screens/EventScreen.jsx';
-import SignUpScreen from './js/screens/SignUpScreen.jsx';
 import rootReducer from './js/redux/reducers/index';
 
 // webpack-dev-server --progress --inline
@@ -40,10 +38,9 @@ const store = createStoreWithFirebase(rootReducer, {})
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={browserHistory}>
-			<Route path="/" component={LoginScreen}/>
+			<Route path="/" component={SignInScreen}/>
 			<Route path="/event" component={EventScreen}/>
-			<Route path="/home" component={HomeScreen}/>
-			<Route path="/signup" component={SignUpScreen}/>
+			<Route path="/signup" component={SignInScreen}/>
 		</Router>
 	</Provider>,
   document.getElementById('app')
