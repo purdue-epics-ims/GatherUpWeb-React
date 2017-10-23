@@ -31,10 +31,7 @@ class EventScreen extends Component {
 				<div className="container">
 					<Row>
 						<Col xs={12} sm={10} smOffset={1}>
-							<Modal show={this.state.showModal} onHide={this.handleCloseModal.bind(this)}>
-								<Modal.Header closeButton>
-									<Modal.Title>Create New Event</Modal.Title>
-								</Modal.Header>
+							<Modal className="event-add-modal" show={this.state.showModal} onHide={this.handleCloseModal.bind(this)}>
 								<Modal.Body>
 									<AddEventForm></AddEventForm>
 								</Modal.Body>

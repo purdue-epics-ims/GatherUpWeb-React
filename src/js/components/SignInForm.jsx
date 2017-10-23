@@ -44,7 +44,7 @@ class SignInForm extends Component {
 
   render() {
     return (
-      <div className="sign-in-card">
+      <div className="input-card">
         <h4>Sign In</h4>
 
         <FormControl

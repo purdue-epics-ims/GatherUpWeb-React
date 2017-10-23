@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { firebaseConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Col, FormGroup, FormControl, Button, ControlLabel, Form } from 'react-bootstrap';
+import { FormControl, Button } from 'react-bootstrap';
 
 class AddEventForm extends Component {
   constructor(props) {
@@ -28,61 +28,26 @@ class AddEventForm extends Component {
 
   render() {
     return (
-      <div>
-        <Form horizontal>
-          <FormGroup controlId="formHorizontalName">
-            <Col componentClass={ControlLabel} sm={2}>
-              Name
-            </Col>
-            <Col sm={10}>
-              <FormControl type="text" placeholder="Name of Event" />
-            </Col>
-          </FormGroup>
+      <div className="input-card">
+        <h4>Create New Event</h4>
 
-          <FormGroup controlId="formHorizontalDate">
-            <Col componentClass={ControlLabel} sm={2}>
-              Date
-            </Col>
-            <Col sm={10}>
-              <FormControl type="date" placeholder="mm/dd/yy" />
-            </Col>
-          </FormGroup>
+        <FormControl type="text" placeholder="Name of Event" />
+        <FormControl type="date" placeholder="mm/dd/yy" />
+        <FormControl type="time" placeholder="--:-- --" />
+        <FormControl componentClass="textarea" placeholder="Description" />
 
-          <FormGroup controlId="formHorizontalTime">
-            <Col componentClass={ControlLabel} sm={2}>
-              Time
-            </Col>
-            <Col sm={10}>
-              <FormControl type="time" placeholder="--:-- --" />
-            </Col>
-          </FormGroup>
-
-          <FormGroup controlId="formHorizontalTextarea">
-            <Col componentClass={ControlLabel} sm={2}>
-              Description
-            </Col>
-            <Col sm={10}>
-              <FormControl componentClass="textarea" placeholder="Description" />
-            </Col>
-          </FormGroup>
-
-          <FormGroup>
-            <Col smOffset={2} sm={10}>
-              <Button type="submit">
-                Submit
-              </Button>
-            </Col>
-          </FormGroup>
-        </Form>
+        <Button type="submit">
+          Submit
+        </Button>
       </div>
     );
   }
 }
 
 export default compose(
-	firebaseConnect([
-	]),
-	connect(
-		({ firebase }) => ({})
-	)
+  firebaseConnect([
+  ]),
+  connect(
+    ({ firebase }) => ({})
+  )
 )(AddEventForm)

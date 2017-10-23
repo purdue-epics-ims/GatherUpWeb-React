@@ -3,19 +3,23 @@
   height: 250px;
 }
 
-.sign-in-card {
+.input-card {
   color: #22F0DD;
+  text-align: center;
 }
 
-.sign-in-card > h4 {
+.input-card > h4 {
   font-weight: 100;
   font-size: 23px;
   margin-bottom: 20px;
 }
 
-.sign-in-card > input,
-.sign-in-card > input:active,
-.sign-in-card > input:focus {
+.input-card > input,
+.input-card > input:active,
+.input-card > input:focus,
+.input-card > textarea,
+.input-card > textarea:active,
+.input-card > textarea:focus {
   color: inherit;
   margin: 20px auto;
   width: 75%;
@@ -26,26 +30,42 @@
   border-bottom: 2px solid #22F0DD;
 }
 
-.sign-in-card > input::-webkit-input-placeholder {
+.input-card > input::-webkit-input-placeholder {
   color: #22F0DD !important;
 }
 
-.sign-in-card > input:-moz-placeholder { /* Firefox 18- */
+.input-card > input:-moz-placeholder { /* Firefox 18- */
   color: #22F0DD !important;
 }
 
-.sign-in-card > input::-moz-placeholder {  /* Firefox 19+ */
+.input-card > input::-moz-placeholder {  /* Firefox 19+ */
   color: #22F0DD !important;
 }
 
-.sign-in-card > input:-ms-input-placeholder {
+.input-card > input:-ms-input-placeholder {
   color: #22F0DD !important;
 }
 
-.sign-in-card > button, .sign-in-card > button:focus,
-.sign-in-card > button:hover, .sign-in-card > button:active,
-.sign-in-card > button:active:focus,
-.sign-in-card > button:active:hover {
+.input-card > textarea::-webkit-input-placeholder {
+  color: #22F0DD !important;
+}
+
+.input-card > textarea:-moz-placeholder { /* Firefox 18- */
+  color: #22F0DD !important;
+}
+
+.input-card > textarea::-moz-placeholder {  /* Firefox 19+ */
+  color: #22F0DD !important;
+}
+
+.input-card > textarea:-ms-input-placeholder {
+  color: #22F0DD !important;
+}
+
+.input-card > button, .input-card > button:focus,
+.input-card > button:hover, .input-card > button:active,
+.input-card > button:active:focus,
+.input-card > button:active:hover {
   background-color: #22F0DD;
   background-image: none;
   color: #FFFFFF;
