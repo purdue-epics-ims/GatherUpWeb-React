@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Col, FormGroup, FormControl, Button, ControlLabel, Form } from 'react-bootstrap';
 
-export default class AddEventForm extends Component {
+class AddEventForm extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -75,3 +78,11 @@ export default class AddEventForm extends Component {
     );
   }
 }
+
+export default compose(
+	firebaseConnect([
+	]),
+	connect(
+		({ firebase }) => ({})
+	)
+)(AddEventForm)

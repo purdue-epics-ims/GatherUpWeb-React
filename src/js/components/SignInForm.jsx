@@ -22,7 +22,6 @@ class SignInForm extends Component {
           .then(function() {
             alert('Sign Out Successful')
           }, function(error) { //error output
-            var errorCode = error.code;
             var errorMessage = error.message;
             alert(errorMessage); //Alerts user about the error type
           });
