@@ -2,8 +2,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-	background: linear-gradient(#A3DAFF, #3498DB);
+	background: url(../img/background.png) top center no-repeat;
 	background-size: cover;
-	background-color: #3498DB;
 	min-height: 100vh;
+}
+
+.card {
+	background-color: #505050;
+	color: #22F0DD;
+	border-radius: 2.5px;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
