@@ -12,8 +12,21 @@ class EventForm extends Component {
     desc: ''
   }
 
+  componentWillMount() {
+    if (this.props.event) {
+      let date = new Date(this.props.event.dateID);
+      console.log(date.getHours() + ':' + date.getMinutes());
+      this.setState({
+        name: this.props.event.name,
+        date: this.props.event.dateID,
+        time: date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+        desc: this.props.event.description
+      });
+    }
+  }
+
   handleSubmit(event) {
-    alert('Should use bootstrap alert: ' + this.state.value);
+    alert('Should use bootstrap alert: ' + this.state.name);
     event.preventDefault();
   }
 
@@ -22,10 +35,31 @@ class EventForm extends Component {
       <div className="input-card">
         <h4>{this.props.title}</h4>
 
-        <FormControl type="text" placeholder="Name" onChange={event => this.setState({name: event.target.value})} />
-        <FormControl type="date" placeholder="Date" onChange={event => this.setState({date: event.target.value})} />
-        <FormControl type="time" placeholder="Time" onChange={event => this.setState({time: event.target.value})} />
-        <FormControl componentClass="textarea" placeholder="Description" onChange={event => this.setState({desc: event.target.value})} />
+        <FormControl
+          type="text"
+          placeholder="Name"
+          value={this.state.name}
+          onChange={event => this.setState({name: event.target.value})} />
+
+        <FormControl
+          id="event-form-date-input"
+          type="date"
+          placeholder="Date"
+          value={this.state.date}
+          onChange={event => this.setState({date: event.target.value})} />
+
+        <FormControl
+          id="event-form-time-input"
+          type="time"
+          placeholder="Time"
+          value={this.state.time}
+          onChange={event => this.setState({time: event.target.value})} />
+
+        <FormControl
+          componentClass="textarea"
+          placeholder="Description"
+          value={this.state.desc}
+          onChange={event => this.setState({desc: event.target.value})} />
 
         <Button type="submit" onClick={this.handleSubmit.bind(this)}>
           Submit

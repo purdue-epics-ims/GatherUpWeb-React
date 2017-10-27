@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
+import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   firebaseConnect,
   pathToJS
 } from 'react-redux-firebase';
+
+import EventForm from './EventForm';
 
 class CurrentEventPanel extends Component {
 
@@ -15,7 +17,9 @@ class CurrentEventPanel extends Component {
     this.state = {
       open: true,
       events: [],
-      keys: []
+      keys: [],
+      showModal: false,
+      eventToModify: null
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
@@ -43,7 +47,7 @@ class CurrentEventPanel extends Component {
   }
 
   updateEvent(event) {
-
+    this.setState({ showModal: true, eventToModify: event });
   }
 
   render() {
@@ -55,6 +59,11 @@ class CurrentEventPanel extends Component {
 
     return (
       <div>
+        <Modal className="event-add-modal" show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
+          <Modal.Body>
+            <EventForm title="Modify Event" event={this.state.eventToModify} />
+          </Modal.Body>
+        </Modal>
         <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
           <Table fill bordered condensed hover>
             <thead>
@@ -77,7 +86,7 @@ class CurrentEventPanel extends Component {
                         <ButtonGroup bsSize="small">
                           <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
                           <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(keys[index])}><Glyphicon glyph="remove" /> Delete</Button>
-                          <Button bsStyle="success"><Glyphicon glyph="pencil" /> Update</Button>
+                          <Button bsStyle="success" onClick={() => this.updateEvent(event)}><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
                     </td>
