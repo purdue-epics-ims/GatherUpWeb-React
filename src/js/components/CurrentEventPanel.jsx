@@ -22,7 +22,7 @@ class CurrentEventPanel extends Component {
       eventToModify: null
     };
     this.deleteEvent = this.deleteEvent.bind(this);
-    this.updateEvent = this.updateEvent.bind(this);
+    this.generateCSVEvent = this.generateCSVEvent.bind(this);
   }
 
   componentDidMount(){
@@ -46,9 +46,51 @@ class CurrentEventPanel extends Component {
     this.props.firebase.database().ref('event').child(key).remove();
   }
 
+  generateCSVEvent(event) {
+    var csv = '';
+    var myDataRef= this.props.firebase.database().ref('event')
+    let firebase = this.props.firebase;
+
+    myDataRef.orderByChild("dateID").on('child_added', function(snapshot){
+      var eventMessage = snapshot.val();
+      var myDataRef3= firebase.database().ref('event/' +snapshot.getKey()+'/attendees');
   updateEvent(event) {
     this.setState({ showModal: true, eventToModify: event });
   }
+
+      if(snapshot.val().name == event.name){
+        myDataRef3.once("value", function(snapshot3){
+          if (snapshot3.numChildren() === 0) {
+            window.alert('No data to download');
+            return;
+          }
+
+          let res = snapshot3.val();
+
+          csv = 'puid,firstname,lastname,email,domestic/int,year\n';
+
+          Object.keys(res).map((key, index) => {
+            csv += res[key].puid + ","
+            + res[key].firstname + ","
+            + res[key].lastname+","
+            + res[key].email + ","
+            + res[key].intstatus + ","
+            + res[key].year + '\n';
+            return;
+          })
+
+          if (!csv.match(/^data:text\/csv/i)) {
+            csv = 'data:text/csv;charset=utf-8,' + csv;
+          }
+
+          let link = document.createElement('a');
+          link.setAttribute('href', encodeURI(csv));
+          link.setAttribute('download', event.name + '.csv');
+          link.click();
+        });
+      }
+    });
+  };
 
   render() {
     const {events} = this.state;
@@ -70,6 +112,10 @@ class CurrentEventPanel extends Component {
               <tr>
                 <th>Date</th>
                 <th>Name</th>
+
+
+
+
                 <th>Description</th>
                 <th>Actions</th>
               </tr>
@@ -84,7 +130,7 @@ class CurrentEventPanel extends Component {
                     <td>
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
-                          <Button type="button" bsStyle="info"><Glyphicon glyph="arrow-down" /> CSV</Button>
+                          <Button type="button" bsStyle="info" onClick={() => this.generateCSVEvent(event)}><Glyphicon glyph="arrow-down" /> CSV</Button>
                           <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(keys[index])}><Glyphicon glyph="remove" /> Delete</Button>
                           <Button bsStyle="success" onClick={() => this.updateEvent(event)}><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
