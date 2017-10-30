@@ -35,14 +35,14 @@ class CurrentEventPanel extends Component {
     this.setState({ showModal: true, eventToModify, eventIdToModify });
   }
 
-  generateCSVEvent(id, event) {    
-    this.props.firebase.database().ref('event/' + id+'/attendees').once("value", snapshot3 => {
-      if (snapshot3.numChildren() === 0) {
+  generateCSVEvent(id, event) {
+    this.props.firebase.database().ref('event/' + id +'/attendees').once("value", snapshot => {
+      if (snapshot.numChildren() === 0) {
         window.alert('No data to download');
         return;
       }
 
-      let res = snapshot3.val();
+      let res = snapshot.val();
       let csv = 'puid,firstname,lastname,email,domestic/int,year\n';
 
       Object.keys(res).map((key, index) => {
@@ -96,7 +96,7 @@ class CurrentEventPanel extends Component {
               {Object.keys(events).map((key, index) => {
                 event = events[key];
                 return(
-                  <tr key={event.dateID + index}>
+                  <tr key={key}>
                     <td>{new Date(event.dateID).toDateString()}.</td>
                     <td>{event.name}</td>
                     <td>{event.description}</td>

@@ -9,7 +9,7 @@ class EventForm extends Component {
     name: '',
     date: '',
     time: '',
-    desc: ''
+    description: ''
   }
 
   componentWillMount() {
@@ -19,14 +19,40 @@ class EventForm extends Component {
         name: this.props.event.name,
         date: this.props.event.dateID,
         time: date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-        desc: this.props.event.description
+        description: this.props.event.description
       });
     }
   }
 
-  handleSubmit(event) {
-    alert('Should use bootstrap alert: ' + this.state.name);
-    event.preventDefault();
+  handleSubmit() {
+    let obj;
+
+    if (this.props.eventId) {
+      // Update event
+      this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
+        obj = snapshot.val();
+        obj.name = this.state.name;
+        obj.dateID = obj.date = this.state.date;
+        obj.time = this.state.time;
+        obj.description = this.state.description;
+        this.props.firebase.database().ref('event/' + this.props.eventId).update(obj).then(() => {
+          // Not the best implementation
+          // To make it better, use redux to control the Modal
+          // and dismiss the modal with actions once updated the event
+          location.reload();
+        });
+      });
+    } else {
+      // Create new event
+      obj = this.state;
+      obj.dateID = this.state.date;
+      this.props.firebase.database().ref('event/').push().set(obj).then(() => {
+        // Not the best implementation
+        // To make it better, use redux to control the Modal
+        // and dismiss the modal with actions once updated the event
+        location.reload();
+      })
+    }
   }
 
   render() {
@@ -57,10 +83,10 @@ class EventForm extends Component {
         <FormControl
           componentClass="textarea"
           placeholder="Description"
-          value={this.state.desc}
-          onChange={event => this.setState({desc: event.target.value})} />
+          value={this.state.description}
+          onChange={event => this.setState({description: event.target.value})} />
 
-        <Button type="submit" onClick={this.handleSubmit.bind(this)}>
+        <Button onClick={this.handleSubmit.bind(this)}>
           Submit
         </Button>
       </div>
