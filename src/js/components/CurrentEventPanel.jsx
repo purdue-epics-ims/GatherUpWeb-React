@@ -46,6 +46,10 @@ class CurrentEventPanel extends Component {
     this.props.firebase.database().ref('event').child(key).remove();
   }
 
+  updateEvent(event) {
+    this.setState({ showModal: true, eventToModify: event });
+  }
+
   generateCSVEvent(event) {
     var csv = '';
     var myDataRef= this.props.firebase.database().ref('event')
@@ -54,9 +58,6 @@ class CurrentEventPanel extends Component {
     myDataRef.orderByChild("dateID").on('child_added', function(snapshot){
       var eventMessage = snapshot.val();
       var myDataRef3= firebase.database().ref('event/' +snapshot.getKey()+'/attendees');
-  updateEvent(event) {
-    this.setState({ showModal: true, eventToModify: event });
-  }
 
       if(snapshot.val().name == event.name){
         myDataRef3.once("value", function(snapshot3){
