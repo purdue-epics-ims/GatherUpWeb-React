@@ -1,116 +1,111 @@
 import React, { Component } from 'react';
-import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon } from 'react-bootstrap';
+import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  firebaseConnect,
-  pathToJS
-} from 'react-redux-firebase';
+import { firebaseConnect } from 'react-redux-firebase';
+
+import EventForm from './EventForm';
 
 class CurrentEventPanel extends Component {
 
-  constructor(...args) {
-    super(...args);
+  constructor(args) {
+    super(args);
     this.state = {
       open: true,
-      events: []
+      events: {},
+      showModal: false,
+      eventToModify: null,
+      eventIdToModify: null
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.generateCSVEvent = this.generateCSVEvent.bind(this);
   }
 
   componentDidMount(){
-    var x = this;
-    this.props.firebase.database().ref('event').on('child_added', (snapshot) => {
-      var newEvents = x.state.events.slice();
-      newEvents.push(snapshot.val());
-      x.setState({events: newEvents});
+    this.props.firebase.database().ref('event').once('value', (snapshot) => {
+      this.setState({events: snapshot.val()});
     });
   }
 
-
-  deleteEvent() {
-
+  deleteEvent(key) {
+    this.props.firebase.database().ref('event').child(key).remove();
   }
 
-  generateCSVEvent(event) {
-    var csv = '';
-    var myDataRef= this.props.firebase.database().ref('event')
-    let firebase = this.props.firebase;
+  updateEvent(eventIdToModify, eventToModify) {
+    this.setState({ showModal: true, eventToModify, eventIdToModify });
+  }
 
-    myDataRef.orderByChild("dateID").on('child_added', function(snapshot){
-      var eventMessage = snapshot.val();
-      var myDataRef3= firebase.database().ref('event/' +snapshot.getKey()+'/attendees');
-
-      if(snapshot.val().name == event.name){
-        myDataRef3.once("value", function(snapshot3){
-          if (snapshot3.numChildren() === 0) {
-            window.alert('No data to download');
-            return;
-          }
-
-          let res = snapshot3.val();
-
-          csv = 'puid,firstname,lastname,email,domestic/int,year\n';
-
-          Object.keys(res).map((key, index) => {
-            csv += res[key].puid + ","
-            + res[key].firstname + ","
-            + res[key].lastname+","
-            + res[key].email + ","
-            + res[key].intstatus + ","
-            + res[key].year + '\n';
-            return;
-          })
-
-          if (!csv.match(/^data:text\/csv/i)) {
-            csv = 'data:text/csv;charset=utf-8,' + csv;
-          }
-
-          let link = document.createElement('a');
-          link.setAttribute('href', encodeURI(csv));
-          link.setAttribute('download', event.name + '.csv');
-          link.click();
-        });
+  generateCSVEvent(id, event) {
+    this.props.firebase.database().ref('event/' + id +'/attendees').once("value", snapshot => {
+      if (snapshot.numChildren() === 0) {
+        window.alert('No data to download');
+        return;
       }
+
+      let res = snapshot.val();
+      let csv = 'puid,firstname,lastname,email,domestic/int,year\n';
+
+      Object.keys(res).map((key, index) => {
+        csv += res[key].puid + ","
+        + res[key].firstname + ","
+        + res[key].lastname+","
+        + res[key].email + ","
+        + res[key].intstatus + ","
+        + res[key].year + '\n';
+        return null;
+      })
+
+      if (!csv.match(/^data:text\/csv/i)) {
+        csv = 'data:text/csv;charset=utf-8,' + csv;
+      }
+
+      let link = document.createElement('a');
+      link.setAttribute('href', encodeURI(csv));
+      link.setAttribute('download', event.name + '.csv');
+      link.click();
     });
   };
 
   render() {
-    const {events} = this.state;
+    const { events } = this.state;
+    let event = {};
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;
     var style = "primary"
 
     return (
       <div>
+        <Modal className="event-add-modal"
+          show={this.state.showModal}
+          onHide={() => this.setState({ showModal: false })}>
+          <Modal.Body>
+            <EventForm title="Modify Event" event={this.state.eventToModify} eventId={this.state.eventIdToModify} />
+          </Modal.Body>
+        </Modal>
         <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
           <Table fill bordered condensed hover>
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Name</th>
-
-
-
-
                 <th>Description</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {events.map((event, index) => {
+              {Object.keys(events).map((key, index) => {
+                event = events[key];
                 return(
-                  <tr key={event.dateID + index}>
+                  <tr key={key}>
                     <td>{new Date(event.dateID).toDateString()}.</td>
                     <td>{event.name}</td>
                     <td>{event.description}</td>
                     <td>
                       <ButtonToolbar>
                         <ButtonGroup bsSize="small">
-                          <Button type="button" bsStyle="info" onClick={() => this.generateCSVEvent(event)}><Glyphicon glyph="arrow-down" /> CSV</Button>
-                          <Button type="button" bsStyle="danger"><Glyphicon glyph="remove" /> Delete</Button>
-                          <Button bsStyle="warning"><Glyphicon glyph="pencil" /> Update</Button>
+                          <Button type="button" bsStyle="info" onClick={() => this.generateCSVEvent(key, event)}><Glyphicon glyph="arrow-down" /> CSV</Button>
+                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(key)}><Glyphicon glyph="remove" /> Delete</Button>
+                          <Button bsStyle="success" onClick={() => this.updateEvent(key, event)}><Glyphicon glyph="pencil" /> Update</Button>
                         </ButtonGroup>
                       </ButtonToolbar>
                     </td>

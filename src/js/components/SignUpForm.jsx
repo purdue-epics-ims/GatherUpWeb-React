@@ -40,7 +40,7 @@ class SignUpForm extends Component {
 
   render() {
     return (
-      <div className="sign-in-card">
+      <div className="input-card">
         <h4>Sign Up</h4>
 
         <FormControl

@@ -16,14 +16,13 @@ class SignInForm extends Component {
     this.props.firebase.login({email: this.state.email, password: this.state.pass}) //function call for firebase logins with email and passwords
     .then(user => {
       if (user !== null) {
-        user = user.uid ? user.uid : user;
+        user = user.uid ? user.uid : user; // sometimes user would be an object, sometimes it would be a string, but all we need is the uid
         if(user !== "9gwVCt6ktCNDdrwUOjGdZrnsTtK2") { //Checks the logins id with the admins id
           alert("User does not have Admin permissions. Signing out user.") //Alerts logger that *insert preferred pronoun here* does not have proper credentials
           this.props.firebase.logout() //call to sign out current user
           .then(function() {
             alert('Sign Out Successful')
           }, function(error) { //error output
-            var errorCode = error.code;
             var errorMessage = error.message;
             alert(errorMessage); //Alerts user about the error type
           });
@@ -46,7 +45,7 @@ class SignInForm extends Component {
 
   render() {
     return (
-      <div className="sign-in-card">
+      <div className="input-card">
         <h4>Sign In</h4>
 
         <FormControl
