@@ -15,7 +15,6 @@ class EventForm extends Component {
   componentWillMount() {
     if (this.props.event) {
       let date = new Date(this.props.event.dateID);
-      console.log(date.getHours() + ':' + date.getMinutes());
       this.setState({
         name: this.props.event.name,
         date: this.props.event.dateID,
