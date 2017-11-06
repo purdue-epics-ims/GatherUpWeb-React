@@ -5,10 +5,10 @@ Event attendance tracker web app for Purdue's Office of International Programs, 
 1. Download the latest Node.js from [here](https://nodejs.org/en/)
 2. Download the latest Git from [here](https://git-scm.com/downloads)
   - If you are Windows user, make sure you check getting git bash while you install
-3. Open up terminal (command line for windows), cd to the directory that you want to store this project
+3. Open up terminal (command prompt for windows), cd to the directory (like Documents, Downloads, Desktop, whatever you want) that you want to store this project. Here are the tutorials for [terminal](https://www.macworld.co.uk/feature/mac-software/how-use-terminal-on-mac-3608274/) and [command prompt](https://www.bleepingcomputer.com/tutorials/windows-command-prompt-introduction/) if you don't have a clue how to use them.
 4. Type in the following command to clone down the project
 
- `git@github.com:purdue-epics-ims/GatherUpWeb-React.git`
+ `git clone git@github.com:purdue-epics-ims/GatherUpWeb-React.git`
 
  If you fail cloning:
   - Check your permission to the project with your team leader
