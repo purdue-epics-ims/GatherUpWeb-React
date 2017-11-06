@@ -7,8 +7,26 @@ import { firebaseConnect } from 'react-redux-firebase';
 import logo from '../../img/logo.png';
 
 class NavigationBar extends Component {
+  state = {
+    username: ''
+  }
+
+  componentDidMount() {
+    // Using onAuthStateChanged() to get currentUser because
+    // firebase.auth().currentUser could be null
+    this.props.firebase.auth().onAuthStateChanged(user => {
+      if (user.email) {
+        this.setState({
+          username: user.email.substring(0, user.email.indexOf('@'))
+        })
+      }
+    })
+  }
+
   signOut() {
-    console.log(this.props.firebase);
+    this.props.firebase.auth().signOut().then(() => {
+      window.location='/'; //redirects user to login page after successful log out.
+    });
   }
 
   render() {
@@ -22,7 +40,7 @@ class NavigationBar extends Component {
         <Nav pullRight>
           <NavDropdown
             eventKey={1}
-            title={`Hi,!`}
+            title={`Hi, ${this.state.username}!`}
             id="basic-nav-dropdown">
             <MenuItem eventKey={1.1} onClick={this.signOut.bind(this)} >Sign out</MenuItem>
           </NavDropdown>

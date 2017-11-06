@@ -19,21 +19,21 @@ Event attendance tracker web app for Purdue's Office of International Programs, 
 
   `npm install -g yarn`
 
-7. Type in the following command to download all the libraries for the project with npm:
-
-  `npm install`
-
-  or if you are using yarn, do this:
+7. Type in the following command to download all the libraries for the project with yarn:
 
   `yarn`
 
-8. Finally, you can run the project with the following command if you are using npm:
+  or if you are using npm, do this:
 
-  `npm start`
+  `npm install`
 
-  or if you are using yarn, do this:
+8. Finally, you can run the project with the following command if you are using yarn:
 
   `yarn start`
+
+  or if you are using npm, do this:
+
+  `npm start`
 
   PROFIT!
 

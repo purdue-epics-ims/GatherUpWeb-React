@@ -24,15 +24,13 @@
 
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-nav > li > .dropdown-menu,
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
 	color: #FFFFFF;
 	background-color: #333333;
 	background-image: none;
-}
-
-.navbar-nav > li > .dropdown-menu {
-	background-color: #333333;
-	color: #FFFFFF;
 }
 
 @media (max-width: 767px) {
