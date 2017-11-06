@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal } from 'react-bootstrap';
+import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
@@ -82,7 +82,8 @@ class CurrentEventPanel extends Component {
             <EventForm title="Modify Event" event={this.state.eventToModify} eventId={this.state.eventIdToModify} />
           </Modal.Body>
         </Modal>
-        <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
+		
+		{/*<Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
           <Table fill bordered condensed hover>
             <thead>
               <tr>
@@ -114,7 +115,23 @@ class CurrentEventPanel extends Component {
               )}
             </tbody>
           </Table>
-        </Panel>
+		</Panel>*/}
+        
+		<Row>
+        {Object.keys(events).map((key, index) => {
+          event = events[key];
+          return(
+            <Col xs={12} sm={6}>
+				<div className="event-card">
+					<h6>{new Date(event.dateID).toDateString()}</h6>
+					<h4>{event.name}</h4>
+					<h5>{event.description}</h5>
+					
+					
+				</div>
+            </Col>
+          )})}
+		</Row>
       </div>
     );
   }
