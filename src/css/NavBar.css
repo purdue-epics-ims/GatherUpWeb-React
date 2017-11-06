@@ -12,6 +12,10 @@
 	z-index: 999;
 }
 
+.navbar-brand {
+	padding: 6px;
+}
+
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
 .dropdown-menu > li > a, .navbar-default .navbar-nav > li > a {
@@ -40,6 +44,10 @@
 		float: right;
 		margin-top: 5px;
 		text-align: right;
+	}
+
+	.navbar-brand {
+		padding: 8.5px;
 	}
 
 	.navbar-default .navbar-nav > .open > a,
