@@ -93,6 +93,9 @@
   -webkit-line-clamp: 1; /* number of lines to show */
   line-height: 1;        /* fallback */
   max-height: 1;       /* fallback */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .event-card > h5 {
@@ -101,4 +104,13 @@
   -webkit-line-clamp: 1; /* number of lines to show */
   line-height: 1;        /* fallback */
   max-height: 1;       /* fallback */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1023px) {
+  .event-card-button > span {
+    display: none;
+  }
 }

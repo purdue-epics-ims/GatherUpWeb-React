@@ -93,7 +93,7 @@ class CurrentEventPanel extends Component {
               <Col xs={12} sm={6} key={index}>
                 <div className="event-card">
                   <h6>{event.dateID ? date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear() : ''}</h6>
-                  <h4>{event.name.length > 28 ? event.name.substring(0,28) + '...' : event.name}</h4>
+                  <h4>{event.name}</h4>
                   <h5>{event.description ? (event.description.length > 60 ? event.description.substring(0,60) + '...' : event.description) : null}</h5>
 
                   <div className="event-card-buttons-wrapper">
