@@ -1,6 +1,6 @@
 .event-screen {
   text-align: center;
-	margin-top: 80px;
+  margin-top: 80px;
 }
 
 .event-fab, .event-fab:active,
@@ -36,12 +36,12 @@
 /*Modal card background*/
 .event-add-modal > .modal-dialog > .modal-content {
   background-color: #505050;
-	color: #22F0DD;
-	border-radius: 2.5px;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
-	padding: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+  color: #22F0DD;
+  border-radius: 2.5px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /*Events card styles*/
@@ -49,7 +49,7 @@
   background-color: #212121;
   color: #FFFFFF;
   border-radius: 2px;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
   padding: 10px 20px;
   margin: 5px;
 }
@@ -82,20 +82,23 @@
 
 /*Events Date*/
 .event-card > h6 {
-	text-align: right;
-	margin-right: 10;
-	margin-top: 10;
+  text-align: right;
+  margin-right: 10;
+  margin-top: 10;
 }
 
 .event-card > h4 {
-	text-align: left;
-	font-size: 25px;
-	-webkit-line-clamp: 1; /* number of lines to show */
-    line-height: 1;        /* fallback */
-    max-height: 1;       /* fallback */
+  text-align: left;
+  font-size: 25px;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-height: 1;        /* fallback */
+  max-height: 1;       /* fallback */
 }
 
 .event-card > h5 {
-	text-align: left;
-	font-size: 14px;
+  text-align: left;
+  font-size: 14px;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-height: 1;        /* fallback */
+  max-height: 1;       /* fallback */
 }
