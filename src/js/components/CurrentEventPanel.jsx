@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Table, Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal } from 'react-bootstrap';
+import { Table, Panel, Glyphicon, Modal, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firebaseConnect } from 'react-redux-firebase';
 
 import EventForm from './EventForm';
+
+import form from '../../img/forms icon.svg';
+import pencil from '../../img/pencil icon.svg';
+import clear from '../../img/clear icon.svg';
 
 class CurrentEventPanel extends Component {
 
@@ -22,7 +26,7 @@ class CurrentEventPanel extends Component {
   }
 
   componentDidMount(){
-    this.props.firebase.database().ref('event').once('value', (snapshot) => {
+    this.props.firebase.database().ref('event').on('value', (snapshot) => {
       this.setState({events: snapshot.val()});
     });
   }
@@ -68,10 +72,8 @@ class CurrentEventPanel extends Component {
 
   render() {
     const { events } = this.state;
-    let event = {};
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;
-    var style = "primary"
 
     return (
       <div>
@@ -82,47 +84,41 @@ class CurrentEventPanel extends Component {
             <EventForm title="Modify Event" event={this.state.eventToModify} eventId={this.state.eventIdToModify} />
           </Modal.Body>
         </Modal>
-        <Panel collapsible header={head} footer={foot} bsStyle={style} expanded={this.state.open}>
-          <Table fill bordered condensed hover>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(events).map((key, index) => {
-                event = events[key];
-                return(
-                  <tr key={key}>
-                    <td>{new Date(event.dateID).toDateString()}.</td>
-                    <td>{event.name}</td>
-                    <td>{event.description}</td>
-                    <td>
-                      <ButtonToolbar>
-                        <ButtonGroup bsSize="small">
-                          <Button type="button" bsStyle="info" onClick={() => this.generateCSVEvent(key, event)}><Glyphicon glyph="arrow-down" /> CSV</Button>
-                          <Button type="button" bsStyle="danger" onClick={()=>this.deleteEvent(key)}><Glyphicon glyph="remove" /> Delete</Button>
-                          <Button bsStyle="success" onClick={() => this.updateEvent(key, event)}><Glyphicon glyph="pencil" /> Update</Button>
-                        </ButtonGroup>
-                      </ButtonToolbar>
-                    </td>
-                  </tr>
-                );}
-              )}
-            </tbody>
-          </Table>
-        </Panel>
-      </div>
-    );
-  }
-}
+        <Row>
+          {Object.keys(events).map((key, index) => {
+            let event = events[key];
+            let date = new Date(event.dateID);
 
-export default compose(
-  firebaseConnect([]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(CurrentEventPanel)
+            return(
+              <Col xs={12} sm={6} key={index}>
+                <div className="event-card">
+                  <h6>{event.dateID ? date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear() : ''}</h6>
+                  <h4>{event.name.length > 28 ? event.name.substring(0,28) + '...' : event.name}</h4>
+                  <h5>{event.description ? (event.description.length > 60 ? event.description.substring(0,60) + '...' : event.description) : null}</h5>
+
+                  <div className="event-card-buttons-wrapper">
+                    <div className="event-card-button" onClick={() => this.generateCSVEvent(key, event)}>
+                      <img alt="Download CSV icon" src={form} /><span>CSV</span>
+                    </div>
+                    <div className="event-card-button" onClick={() => this.updateEvent(key, event)}>
+                      <img alt="Update icon" src={pencil} /><span>Update</span>
+                    </div>
+                    <div className="event-card-button" onClick={() => this.deleteEvent(key)}>
+                      <img alt="Delete icon" src={clear} /><span>Delete</span>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            )})}
+          </Row>
+        </div>
+      );
+    }
+  }
+
+  export default compose(
+    firebaseConnect([]),
+    connect(
+      ({ firebase }) => ({})
+    )
+  )(CurrentEventPanel)

@@ -28,30 +28,40 @@ class EventForm extends Component {
     let obj;
 
     if (this.props.eventId) {
-      // Update event
-      this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
-        obj = snapshot.val();
-        obj.name = this.state.name;
-        obj.dateID = obj.date = this.state.date;
-        obj.time = this.state.time;
-        obj.description = this.state.description;
-        this.props.firebase.database().ref('event/' + this.props.eventId).update(obj).then(() => {
+      // Update event if all fields are filled out
+      if (this.state.name && this.state.date && this.state.time && this.state.description) {
+        console.log(this.state);
+        this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
+          obj = snapshot.val();
+          obj.name = this.state.name ? this.state.name : '';
+          obj.dateID = obj.date = this.state.date ? this.state.date : new Date();
+          obj.time = this.state.time ? this.state.time : new Date().getTime();
+          obj.description = this.state.description ? this.state.description : '';
+          console.log(obj);
+          this.props.firebase.database().ref('event/' + this.props.eventId).set(obj).then(() => {
+            // Not the best implementation
+            // To make it better, use redux to control the Modal
+            // and dismiss the modal with actions once updated the event
+            location.reload();
+          });
+        });
+      } else {
+        alert('Please fill out all the fields');
+      }
+    } else {
+      // Create new event if all fields are filled out
+      if (this.state.name && this.state.date && this.state.time && this.state.description) {
+        obj = this.state;
+        obj.dateID = this.state.date;
+        this.props.firebase.database().ref('event/').push().set(obj).then(() => {
           // Not the best implementation
           // To make it better, use redux to control the Modal
           // and dismiss the modal with actions once updated the event
           location.reload();
-        });
-      });
-    } else {
-      // Create new event
-      obj = this.state;
-      obj.dateID = this.state.date;
-      this.props.firebase.database().ref('event/').push().set(obj).then(() => {
-        // Not the best implementation
-        // To make it better, use redux to control the Modal
-        // and dismiss the modal with actions once updated the event
-        location.reload();
-      })
+        })
+      } else {
+        alert('Please fill out all the fields');
+      }
     }
   }
 
