@@ -75,7 +75,6 @@ class CurrentEventPanel extends Component {
     let event = {};
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;
-    var style = "primary"
 
     return (
       <div>
@@ -86,16 +85,15 @@ class CurrentEventPanel extends Component {
             <EventForm title="Modify Event" event={this.state.eventToModify} eventId={this.state.eventIdToModify} />
           </Modal.Body>
         </Modal>
-
         <Row>
           {Object.keys(events).map((key, index) => {
             event = events[key];
             return(
               <Col xs={12} sm={6}>
                 <div className="event-card">
-                  <h6>{new Date(event.dateID).toDateString()}</h6>
-                  <h4>{event.name}</h4>
-                  <h5>{event.description}</h5>
+					<h6>{event.dateID.substring(5,7) + '/' + event.dateID.substring(8,10) + '/' + event.dateID.substring(0,4)}</h6>
+					<h4>{event.name.length > 28 ? event.name.substring(0,28) + '...' : event.name}</h4>
+					<h5>{event.description ? (event.description.length > 28 ? event.description.substring(0,28) + '...' : event.description) : null}</h5>
 
                   <div className="event-card-buttons-wrapper">
                     <div className="event-card-button" onClick={() => this.generateCSVEvent(key, event)}>

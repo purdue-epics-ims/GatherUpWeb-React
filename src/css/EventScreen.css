@@ -86,3 +86,16 @@
 	marginRight: 10;
 	marginTop: 10;
 }
+
+.event-card > h4 {
+	text-align: left;
+	font-size: 25px;
+	-webkit-line-clamp: 1; /* number of lines to show */
+    line-height: 1;        /* fallback */
+    max-height: 1;       /* fallback */
+}
+
+.event-card > h5 {
+	text-align: left;
+	font-size: 14px;
+}
