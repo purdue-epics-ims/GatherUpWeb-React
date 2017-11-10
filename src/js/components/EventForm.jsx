@@ -31,10 +31,10 @@ class EventForm extends Component {
       // Update event
       this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
         obj = snapshot.val();
-        obj.name = this.state.name;
+        obj.name = this.state.name ? this.state.name : '';
         obj.dateID = obj.date = this.state.date ? this.state.date : new Date();
-        obj.time = this.state.time;
-        obj.description = this.state.description;
+        obj.time = this.state.time ? this.state.time : new Date().getTime();
+        obj.description = this.state.description ? this.state.description : '';
         console.log(obj);
         this.props.firebase.database().ref('event/' + this.props.eventId).set(obj).then(() => {
           // Not the best implementation
