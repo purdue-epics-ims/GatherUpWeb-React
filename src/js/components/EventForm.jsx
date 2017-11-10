@@ -32,10 +32,11 @@ class EventForm extends Component {
       this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
         obj = snapshot.val();
         obj.name = this.state.name;
-        obj.dateID = obj.date = this.state.date;
+        obj.dateID = obj.date = this.state.date ? this.state.date : new Date();
         obj.time = this.state.time;
         obj.description = this.state.description;
-        this.props.firebase.database().ref('event/' + this.props.eventId).update(obj).then(() => {
+        console.log(obj);
+        this.props.firebase.database().ref('event/' + this.props.eventId).set(obj).then(() => {
           // Not the best implementation
           // To make it better, use redux to control the Modal
           // and dismiss the modal with actions once updated the event
