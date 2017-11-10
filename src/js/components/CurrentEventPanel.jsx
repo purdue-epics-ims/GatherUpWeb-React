@@ -26,7 +26,7 @@ class CurrentEventPanel extends Component {
   }
 
   componentDidMount(){
-    this.props.firebase.database().ref('event').once('value', (snapshot) => {
+    this.props.firebase.database().ref('event').on('value', (snapshot) => {
       this.setState({events: snapshot.val()});
     });
   }
@@ -72,7 +72,6 @@ class CurrentEventPanel extends Component {
 
   render() {
     const { events } = this.state;
-    let event = {};
     var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
     var foot = null;
     var style = "primary"
@@ -89,7 +88,7 @@ class CurrentEventPanel extends Component {
 
         <Row>
           {Object.keys(events).map((key, index) => {
-            event = events[key];
+            let event = events[key];
             return(
               <Col xs={12} sm={6}>
                 <div className="event-card">
