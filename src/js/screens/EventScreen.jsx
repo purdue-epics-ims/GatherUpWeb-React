@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
-import { firebaseConnect } from 'react-redux-firebase';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 import EventForm from '../components/EventForm';
 import DefaultNavBar from '../components/NavBar.jsx';
 import CurrentEventPanel from '../components/CurrentEventPanel.jsx';
 import plus from '../../img/plus icon.svg';
+import { setFirebase } from '../redux/actions'
 
 class EventScreen extends Component {
 
 	state = {
 		showModal: false
 	}
+
+	componentWillMount() {
+    if (!this.props.packages.firebase) {
+			this.props.setFirebase(firebase.initializeApp({
+		    apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
+		    authDomain: "gatherup-development.firebaseapp.com",
+		    databaseURL: "https://gatherup-development.firebaseio.com",
+		    projectId: "gatherup-development",
+		    storageBucket: "gatherup-development.appspot.com",
+		    messagingSenderId: "55208332478"
+		  }));
+		}
+  }
 
 	render() {
 		return (
@@ -39,10 +52,16 @@ class EventScreen extends Component {
 	}
 }
 
-export default compose(
-	firebaseConnect([
-	]),
-	connect(
-		({ firebase }) => ({})
-	)
-)(EventScreen)
+const mapStateToProps = state => {
+  return {
+    packages: state.packages
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setFirebase: firebase => dispatch(setFirebase(firebase)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventScreen)

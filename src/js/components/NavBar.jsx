@@ -14,7 +14,7 @@ class NavigationBar extends Component {
   componentDidMount() {
     // Using onAuthStateChanged() to get currentUser because
     // firebase.auth().currentUser could be null
-    this.props.firebase.auth().onAuthStateChanged(user => {
+    this.props.packages.firebase.auth().onAuthStateChanged(user => {
       if (user.email) {
         this.setState({
           username: user.email.substring(0, user.email.indexOf('@'))
@@ -24,7 +24,7 @@ class NavigationBar extends Component {
   }
 
   signOut() {
-    this.props.firebase.auth().signOut().then(() => {
+    this.props.firebase.signOut().then(() => {
       window.location='/'; //redirects user to login page after successful log out.
     });
   }

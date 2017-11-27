@@ -27,12 +27,16 @@ class CurrentEventPanel extends Component {
   componentDidMount(){
     // Using onAuthStateChanged() to get currentUser because
     // firebase.auth().currentUser could be null
-    this.props.firebase.auth().onAuthStateChanged(user => {
+    this.props.packages.firebase.auth().onAuthStateChanged(user => {
       if (user.email) {
         this.setState({
           username: user.email.substring(0, user.email.indexOf('@'))
         })
       }
+    })
+
+    this.props.packages.firebase.database().ref('event').on('value', snapshot => {
+      this.setState({events: snapshot.val()})
     })
   }
 
@@ -91,7 +95,7 @@ class CurrentEventPanel extends Component {
           {Object.keys(events).map((key, index) => {
             let event = events[key];
             return(
-              <Col xs={12} sm={6}>
+              <Col xs={12} sm={6} key={index}>
                 <div className="event-card">
 					<h6>{event.dateID.substring(5,7) + '/' + event.dateID.substring(8,10) + '/' + event.dateID.substring(0,4)}</h6>
 					<h4>{event.name.length > 28 ? event.name.substring(0,28) + '...' : event.name}</h4>
