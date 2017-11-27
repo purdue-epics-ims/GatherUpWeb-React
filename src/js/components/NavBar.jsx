@@ -24,7 +24,7 @@ class NavigationBar extends Component {
   }
 
   signOut() {
-    this.props.firebase.signOut().then(() => {
+    this.props.packages.firebase.auth().signOut().then(() => {
       window.location='/'; //redirects user to login page after successful log out.
     });
   }
