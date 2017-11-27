@@ -18,7 +18,8 @@ class CurrentEventPanel extends Component {
       events: {},
       showModal: false,
       eventToModify: null,
-      eventIdToModify: null
+      eventIdToModify: null,
+      location: ''
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.generateCSVEvent = this.generateCSVEvent.bind(this);
@@ -30,18 +31,23 @@ class CurrentEventPanel extends Component {
     this.props.packages.firebase.auth().onAuthStateChanged(user => {
       if (user.email) {
         this.setState({
-          username: user.email.substring(0, user.email.indexOf('@'))
+          username: user.email.substring(0, user.email.indexOf('@')),
+          location: `${user.uid}/events`
         })
       }
-    })
 
-    this.props.packages.firebase.database().ref('event').on('value', snapshot => {
-      this.setState({events: snapshot.val()})
+      this.props.packages.firebase.database().ref(`${user.uid}/events`).on('value', snapshot => {
+        if (snapshot.val()) {
+          this.setState({events: snapshot.val()});
+        } else {
+          this.setState({events: {}});
+        }
+      })
     })
   }
 
   deleteEvent(key) {
-    this.props.packages.firebase.database().ref('event').child(key).remove();
+    this.props.packages.firebase.database().ref(this.state.location).child(key).remove();
   }
 
   updateEvent(eventIdToModify, eventToModify) {
@@ -49,7 +55,7 @@ class CurrentEventPanel extends Component {
   }
 
   generateCSVEvent(id, event) {
-    this.props.packages.firebase.database().ref('event/' + id +'/attendees').once("value", snapshot => {
+    this.props.packages.firebase.database().ref(this.state.location + id +'/attendees').once("value", snapshot => {
       if (snapshot.numChildren() === 0) {
         window.alert('No data to download');
         return;

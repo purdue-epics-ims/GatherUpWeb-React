@@ -9,7 +9,8 @@ class EventForm extends Component {
     name: '',
     date: '',
     time: '',
-    description: ''
+    description: '',
+    firebaseLocation: ''
   }
 
   componentWillMount() {
@@ -24,6 +25,10 @@ class EventForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({firebaseLocation: `${this.props.packages.firebase.auth().currentUser.uid}/events/`})
+  }
+
   handleSubmit() {
     let obj;
 
@@ -31,14 +36,14 @@ class EventForm extends Component {
       // Update event if all fields are filled out
       if (this.state.name && this.state.date && this.state.time && this.state.description) {
         console.log(this.state);
-        this.props.firebase.database().ref('event/' + this.props.eventId).once('value', snapshot => {
+        this.props.packages.firebase.database().ref(this.state.firebaseLocation + this.props.eventId).once('value', snapshot => {
           obj = snapshot.val();
           obj.name = this.state.name ? this.state.name : '';
           obj.dateID = obj.date = this.state.date ? this.state.date : new Date();
           obj.time = this.state.time ? this.state.time : new Date().getTime();
           obj.description = this.state.description ? this.state.description : '';
           console.log(obj);
-          this.props.firebase.database().ref('event/' + this.props.eventId).set(obj).then(() => {
+          this.props.packages.firebase.database().ref(this.state.firebaseLocation + this.props.eventId).set(obj).then(() => {
             // Not the best implementation
             // To make it better, use redux to control the Modal
             // and dismiss the modal with actions once updated the event
@@ -53,7 +58,7 @@ class EventForm extends Component {
       if (this.state.name && this.state.date && this.state.time && this.state.description) {
         obj = this.state;
         obj.dateID = this.state.date;
-        this.props.firebase.database().ref('event/').push().set(obj).then(() => {
+        this.props.packages.firebase.database().ref(this.state.firebaseLocation).push().set(obj).then(() => {
           // Not the best implementation
           // To make it better, use redux to control the Modal
           // and dismiss the modal with actions once updated the event
