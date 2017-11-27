@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormControl, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
+
 
 import '../../css/SignInScreen.css';
 
@@ -15,10 +15,10 @@ class SignUpForm extends Component {
 
   handleSignUp(event) {
     if(this.state.checkpass === this.state.pass) { //checks if the initial password input matches the retyped password
-      this.props.firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass) //function call to crete new authentication credentials and user
+      this.props.packages.firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass) //function call to crete new authentication credentials and user
       .then((userdata) =>
       alert('Sign Up Successful'), //Notifies admin that the user has now been added
-      this.props.firebase.auth().onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
+      this.props.packages.firebase.onAuthStateChanged(function() {window.location='/event';}) //redirects admin back to events pageX
       //**Note: possibly need to keep admin on signup page for multiple users. If so, need to add code to clear text fields once user has been added.
 
     ).catch(function(error){ //Error catcher
@@ -69,10 +69,9 @@ class SignUpForm extends Component {
   }
 }
 
-export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(SignUpForm)
+const mapStateToProps = state => {
+  return {
+    packages: state.packages
+  }
+}
+export default connect(mapStateToProps)(SignUpForm)

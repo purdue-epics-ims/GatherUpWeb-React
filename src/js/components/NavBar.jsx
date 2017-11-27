@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
+
+import { userLogout } from '../redux/actions';
 
 import logo from '../../img/logo.png';
 
@@ -14,7 +14,7 @@ class NavigationBar extends Component {
   componentDidMount() {
     // Using onAuthStateChanged() to get currentUser because
     // firebase.auth().currentUser could be null
-    this.props.firebase.auth().onAuthStateChanged(user => {
+    this.props.packages.firebase.auth().onAuthStateChanged(user => {
       if (user.email) {
         this.setState({
           username: user.email.substring(0, user.email.indexOf('@'))
@@ -24,7 +24,7 @@ class NavigationBar extends Component {
   }
 
   signOut() {
-    this.props.firebase.auth().signOut().then(() => {
+    this.props.firebase.signOut().then(() => {
       window.location='/'; //redirects user to login page after successful log out.
     });
   }
@@ -50,10 +50,17 @@ class NavigationBar extends Component {
   }
 }
 
-export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(NavigationBar)
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    packages: state.packages
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogout: () => dispatch(userLogout()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

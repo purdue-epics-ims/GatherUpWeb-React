@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseConnect } from 'react-redux-firebase';
+
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormControl, Button } from 'react-bootstrap';
@@ -104,10 +104,9 @@ class EventForm extends Component {
   }
 }
 
-export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(EventForm)
+const mapStateToProps = state => {
+  return {
+    packages: state.packages
+  }
+}
+export default connect(mapStateToProps)(EventForm)

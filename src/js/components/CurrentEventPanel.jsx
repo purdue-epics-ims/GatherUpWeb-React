@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Panel, Glyphicon, Modal, Row, Col } from 'react-bootstrap';
+import { Modal, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
 
 import EventForm from './EventForm';
 
@@ -26,13 +25,23 @@ class CurrentEventPanel extends Component {
   }
 
   componentDidMount(){
-    this.props.firebase.database().ref('event').on('value', (snapshot) => {
-      this.setState({events: snapshot.val()});
-    });
+    // Using onAuthStateChanged() to get currentUser because
+    // firebase.auth().currentUser could be null
+    this.props.packages.firebase.auth().onAuthStateChanged(user => {
+      if (user.email) {
+        this.setState({
+          username: user.email.substring(0, user.email.indexOf('@'))
+        })
+      }
+    })
+
+    this.props.packages.firebase.database().ref('event').on('value', snapshot => {
+      this.setState({events: snapshot.val()})
+    })
   }
 
   deleteEvent(key) {
-    this.props.firebase.database().ref('event').child(key).remove();
+    this.props.packages.firebase.database().ref('event').child(key).remove();
   }
 
   updateEvent(eventIdToModify, eventToModify) {
@@ -40,7 +49,7 @@ class CurrentEventPanel extends Component {
   }
 
   generateCSVEvent(id, event) {
-    this.props.firebase.database().ref('event/' + id +'/attendees').once("value", snapshot => {
+    this.props.packages.firebase.database().ref('event/' + id +'/attendees').once("value", snapshot => {
       if (snapshot.numChildren() === 0) {
         window.alert('No data to download');
         return;
@@ -72,8 +81,6 @@ class CurrentEventPanel extends Component {
 
   render() {
     const { events } = this.state;
-    var head = <div onClick={ ()=> this.setState({ open: !this.state.open })}><h4>Current Events</h4></div>;
-    var foot = null;
 
     return (
       <div>
@@ -116,9 +123,9 @@ class CurrentEventPanel extends Component {
     }
   }
 
-  export default compose(
-    firebaseConnect([]),
-    connect(
-      ({ firebase }) => ({})
-    )
-  )(CurrentEventPanel)
+  const mapStateToProps = state => {
+    return {
+      packages: state.packages
+    }
+  }
+  export default connect(mapStateToProps)(CurrentEventPanel);

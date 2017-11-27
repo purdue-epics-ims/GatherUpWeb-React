@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
-import { reactReduxFirebase } from 'react-redux-firebase'
+import { createStore, compose, applyMiddleware } from 'redux';
+import { reactReduxFirebase } from 'react-redux-firebase';
+import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise-middleware';
 
 import SignInScreen from './js/screens/SignInScreen.jsx';
 import EventScreen from './js/screens/EventScreen.jsx';
@@ -16,24 +18,15 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 import './css/index.css';
 
+const middlewares = [];
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
-  authDomain: "gatherup-development.firebaseapp.com",
-  databaseURL: "https://gatherup-development.firebaseio.com",
-  projectId: "gatherup-development",
-  storageBucket: "gatherup-development.appspot.com",
-  messagingSenderId: "55208332478"
+if (process.env.NODE_ENV === `development`) {
+  const { logger } = require(`redux-logger`);
+  middlewares.push(logger);
 }
 
-// Add redux Firebase to compose
-const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebaseConfig, { userProfile: 'users' }),
-)(createStore)
-
 // Create store with reducers and initial state
-const store = createStoreWithFirebase(rootReducer, {})
+const store = createStore(rootReducer, applyMiddleware(promiseMiddleware(), thunk, ...middlewares));
 
 ReactDOM.render(
 	<Provider store={store}>

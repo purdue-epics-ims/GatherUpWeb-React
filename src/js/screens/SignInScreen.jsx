@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Form } from 'react-bootstrap';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
 
 import SignInForm from '../components/SignInForm'
 import SignUpForm from '../components/SignUpForm'
+import { setFirebase } from '../redux/actions'
 
 import logo from '../../img/logo.png'
 import '../../css/SignInScreen.css';
 
 //Code for the Login Screen
-export default class SignInScreen extends Component {
+class SignInScreen extends Component {
 
   state = {
     isShowSignIn: true
+  }
+
+  // Firebase config
+  firebaseConfig = {
+    apiKey: "AIzaSyCvIT4NlusJ9YQ_LaxIU-sXBRqqU-8S9GI",
+    authDomain: "gatherup-development.firebaseapp.com",
+    databaseURL: "https://gatherup-development.firebaseio.com",
+    projectId: "gatherup-development",
+    storageBucket: "gatherup-development.appspot.com",
+    messagingSenderId: "55208332478"
   }
 
   componentWillMount() {
     if (this.props.location.pathname === "/signup") {
       this.setState({isShowSignIn: false}) // show sign up form
     }
+
+    this.props.setFirebase(firebase.initializeApp(this.firebaseConfig));
   }
 
   handleSignInSwitch() {
@@ -51,3 +66,11 @@ export default class SignInScreen extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setFirebase: firebase => dispatch(setFirebase(firebase)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignInScreen);
