@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FormControl, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
+import { userLogin } from '../redux/actions';
 
 import '../../css/SignInScreen.css';
 
@@ -13,9 +12,10 @@ class SignInForm extends Component {
   }
 
   handleSubmitLogin(event) {
-    this.props.firebase.login({email: this.state.email, password: this.state.pass}) //function call for firebase logins with email and passwords
+    this.props.packages.firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass) //function call for firebase logins with email and passwords
     .then(user => {
       if (user !== null) {
+        let email = user.email.substring(0, user.email.indexOf('@'));
         user = user.uid ? user.uid : user; // sometimes user would be an object, sometimes it would be a string, but all we need is the uid
         if(user !== "9gwVCt6ktCNDdrwUOjGdZrnsTtK2") { //Checks the logins id with the admins id
           alert("User does not have Admin permissions. Signing out user.") //Alerts logger that *insert preferred pronoun here* does not have proper credentials
@@ -28,7 +28,10 @@ class SignInForm extends Component {
           });
         } else {
           alert("User Accepted")
+          console.log(user);
+          this.props.userLogin(user);
           window.location='/event'; //redirects user to events page after successful log in.
+
         }
       }
     }).catch(function(error) {
@@ -68,10 +71,15 @@ class SignInForm extends Component {
   }
 }
 
-export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(SignInForm)
+const mapStateToProps = state => {
+  return {
+    packages: state.packages
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogin: user => dispatch(userLogin()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

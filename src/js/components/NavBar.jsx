@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { firebaseConnect } from 'react-redux-firebase';
+
+import { userLogout } from '../redux/actions';
 
 import logo from '../../img/logo.png';
 
@@ -50,10 +50,17 @@ class NavigationBar extends Component {
   }
 }
 
-export default compose(
-  firebaseConnect([
-  ]),
-  connect(
-    ({ firebase }) => ({})
-  )
-)(NavigationBar)
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    packages: state.packages
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogout: () => dispatch(userLogout()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
